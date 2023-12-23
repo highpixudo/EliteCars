@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    background-color: #D9D9D9;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.topnav {
+    background-color: #D9D9D9;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    z-index: 1000;
+}
+
+
+.logo {
+    margin-left: 20px;
+    color: #000;
+    text-align: center;
+    font-family: 'Krona One', sans-serif;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 9.6px;
+}
+
+.nav-buttons {
+    display: flex;
+    margin-right: 50px;
+}
+
+.topnav a {
+    color: #000;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.topnav a.register {
+    display: flex;
+    align-items: center;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.topnav a.login {
+    border-radius: 5px;
+    font-weight: 600;
+    background: #FF8743;
+    border: 2px solid #FF8743;
+    padding: 10px;
+    width: 110px;
+    text-align: center;
+    color: white;
+}
+
+.topnav a.logo {
+    color: #000;
+    font-family: 'Krona One', sans-serif;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 9.6px;
+    text-decoration: none;
+}
+
+.topnav a.logo:hover {
+    color: #000;
+
+}
+
+.scroll-bg {
+    transition: all 0.2s;
+    background-color: #c9c9c9;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+
+}
+
+section {
+    height: 600px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
