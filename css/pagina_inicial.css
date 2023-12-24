@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-color: #D9D9D9;
     margin: 0;
@@ -94,17 +100,17 @@ body {
 
 .container {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    position: relative;
-    margin-top: 5vh;
-    width: 110%;
+    height: 100%;
 }
 
 .text {
     top: 10px;
     position: absolute;
-    margin-bottom: 10vh;
-    max-width: 50%;
+    margin-bottom: 20vh;
+    max-width: 60%;
     padding: 5vw;
     color: #000;
     font-family: 'Poppins', sans-serif;
@@ -114,53 +120,28 @@ body {
     line-height: 1.5em;
     letter-spacing: 0.2vw;
     z-index: 2;
+    left: 0;
 }
-
 
 .text .highlight {
     color: #FF8743;
 }
 
 .image {
-    max-width: 60%;
+    max-width: 50%;
     padding: 2vw;
     position: relative;
-    left: 25vw;
-    margin-left: 5vw;
+    left: 7vw;
+    margin-left: 0;
 }
 
-@media (max-width: 1000px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-    }
-
-    .text {
-        margin-left: 0;
-        position: relative;
-        top: 100px;
-        font-size: 3vh;
-        margin-bottom: 50px;
-    }
-
-    .image {
-        left: 0;
-        margin-left: 0;
-    }
-
-    .buttons {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-}
-
-
-.buttons {
-    display: flex;
-    margin-top: 400px;
+.buttons .button_comprar,
+.buttons .button_testdrive {
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    width: 200px;
 }
 
 .button_comprar {
@@ -195,14 +176,11 @@ body {
     width: 250px;
 }
 
-.button_comprar,
-.button_testdrive {
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    width: 200px;
-    margin-left: 10px;
+
+.buttons {
+    display: flex;
+    margin-top: 45vh;
+    margin-bottom: 4vh; 
 }
 
 .button:hover {
@@ -320,20 +298,87 @@ button:before {
     animation-delay: calc(0.3s * var(--i));
 }
 
+
+@media screen and (max-width: 1024px) {
+    .container img {
+        width: 150%;
+    }
+
+    .text {
+        max-width: 50%;
+        margin-top: 30px;
+        font-size: 2.5vw;
+        line-height: 1.5em;
+    }
+
+    .buttons .button_comprar,
+    .buttons .button_testdrive {
+        width: 160px;
+    }
+
+    .buttons {
+        margin-top: 45vh;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text {
+        margin-left: 5vw;
+        margin-top: 10vh;
+        margin-bottom: 20px;
+        font-size: 4vw;
+        line-height: 1.5em;
+        max-width: 80%;
+        text-align: center;
+        width: 100%;
+        order: 1;
+    }
+
+    .image {
+        max-width: 50%;
+        margin-right: 250px;
+        margin-top: 20px; 
+        margin-bottom: 20px; 
+        order: 2;
+    }
+
+    .buttons {
+        justify-content: center;
+        width: 100%;
+        order: 3;
+    }
+
+    .buttons .button_comprar,
+    .buttons .button_testdrive {
+        width: 150px;
+    }
+}
+
+
+
 @keyframes flip {
-    0%, 70% {
+    0%,
+    70% {
         transform: rotateY(360deg);
     }
 }
 
 @keyframes glowing {
     0% {
-      box-shadow: 0 0 3px #FF8743;
+        box-shadow: 0 0 3px #FF8743;
     }
+
     50% {
-      box-shadow: 0 0 20px #FF8743;
+        box-shadow: 0 0 20px #FF8743;
     }
+
     100% {
-      box-shadow: 0 0 3px #FF8743;
+        box-shadow: 0 0 3px #FF8743;
     }
-  }
+}
