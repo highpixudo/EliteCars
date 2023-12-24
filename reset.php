@@ -50,30 +50,14 @@ $_SESSION['last_activity'] = time();
     </div>
 
     <div class="main_div">
-        <div class="title">Iniciar Sessão</div>
-        <form action="processar_login.php" method="post">
+        <div class="title">Redefinição de credenciais</div>
+        <form action="reset_pass.php" method="post">
             <div class="input_box">
-                <input type="text" name="username" placeholder="Email ou nome de utilizador" required>
+                <input type="text" name="email" placeholder="Email usado na conta" required>
                 <div class="icon"><i class="fas fa-user"></i></div>
             </div>
-            <div class="input_box">
-                <input type="password" name="password" placeholder="Palavra-passe" required>
-                <div class="icon"><i class="fas fa-lock"></i></div>
-            </div>
-            <div class="option_div">
-                <div class="check_box">
-                    <input type="checkbox" name="remember_me">
-                    <span>Lembrar-me</span>
-                </div>
-                <div class="forget_div">
-                    <a href="reset.php">Esqueceu-se da senha?</a>
-                </div>
-            </div>
             <div class="input_box button">
-                <input type="submit" value="Entrar">
-            </div>
-            <div class="sign_up">
-                Não tem uma conta? <a href="signup.php">Criar conta</a>
+                <input type="submit" value="Redefinir palavra-passe">
             </div>
         </form>
     </div>
