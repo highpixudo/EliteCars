@@ -1,18 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-body, html {
-    height: 100%;
+body,
+html {
     margin: 0;
     padding: 0;
 }
 
 body {
     background-color: #D9D9D9;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     overflow-x: hidden;
 }
 
@@ -103,13 +98,17 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh; /* Set height to 100vh */
+    padding: 0; /* Remove any padding */
+    margin: 0; /* Remove any margin */
 }
+
+
 
 .text {
     top: 10px;
     position: absolute;
-    margin-bottom: 20vh;
+    margin-bottom: 0;
     max-width: 60%;
     padding: 5vw;
     color: #000;
@@ -180,7 +179,7 @@ body {
 .buttons {
     display: flex;
     margin-top: 45vh;
-    margin-bottom: 4vh; 
+    margin-bottom: 4vh;
 }
 
 .button:hover {
@@ -198,10 +197,21 @@ body {
     margin-top: 20px;
 }
 
-.product-section {
-    max-width: 1300px;
-    margin: 0 auto;
+.produtos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Set height to 100% */
 }
+
+
+.product-section {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 0; 
+}
+
 
 .product {
     margin-left: 5%;
@@ -343,8 +353,8 @@ button:before {
     .image {
         max-width: 50%;
         margin-right: 250px;
-        margin-top: 20px; 
-        margin-bottom: 20px; 
+        margin-top: 20px;
+        margin-bottom: 20px;
         order: 2;
     }
 
@@ -363,6 +373,7 @@ button:before {
 
 
 @keyframes flip {
+
     0%,
     70% {
         transform: rotateY(360deg);

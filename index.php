@@ -59,7 +59,7 @@ $_SESSION['last_activity'] = time();
     <div class="container">
 
         <div class="text">
-            <p class="texto-main" >Salve até <span class="highlight">15%</span> com o novo modelo Tesla S.
+            <p class="texto-main">Salve até <span class="highlight">15%</span> com o novo modelo Tesla S.
                 Aproveite a próxima geração de veículos elétricos.</p>
 
             <div class="buttons">
@@ -78,23 +78,32 @@ $_SESSION['last_activity'] = time();
     </section>
 
     <script>
-        function scrollToProdutosDestaque() {
-            var produtosDestaque = document.getElementById('produtos-destaque');
+        document.addEventListener("DOMContentLoaded", function () {
+            function scrollToProdutosDestaque() {
+                var container = document.querySelector('.container');
+                var produtosDestaque = document.getElementById('produtos-destaque');
 
-            if (produtosDestaque) {
-                var produtosDestaquePosition = produtosDestaque.offsetTop - 121;
+                if (container && produtosDestaque) {
+                    var containerPosition = container.offsetTop;
+                    var produtosDestaquePosition = produtosDestaque.offsetTop + containerPosition;
 
-                window.scrollTo({
-                    top: produtosDestaquePosition,
-                    behavior: 'smooth'
-                });
+                    window.scrollTo({
+                        top: produtosDestaquePosition,
+                        behavior: 'smooth'
+                    });
+                }
             }
-        }
+
+            // Associar a função ao clique do link
+            var linkToProdutosDestaque = document.querySelector('#section a');
+            if (linkToProdutosDestaque) {
+                linkToProdutosDestaque.addEventListener('click', scrollToProdutosDestaque);
+            }
+        });
     </script>
 
     <div class="produtos" id="produtos-destaque">
         <h1 class="product-title">Carros em destaque</h1>
-
         <div class="product-section">
             <form action="checkout.php?produto=boladeagua" method="post">
                 <div class="product">
@@ -152,7 +161,7 @@ $_SESSION['last_activity'] = time();
                     <div class="product-img">
                         <img src="assets/porsche-panamera.png">
                         <button type="submit" class="comprar-produto-destaque">Comprar</button>
-                        <button type="submit" >Test drive</button>
+                        <button type="submit">Test drive</button>
                     </div>
                 </div>
             </form>
