@@ -49,18 +49,59 @@ $_SESSION['last_activity'] = time();
         </div>
     </div>
 
-    <div class="main_div">
-        <div class="title">Redefinição de credenciais</div>
-        <form action="reset_pass.php" method="post">
-            <div class="input_box">
-                <input type="text" name="email" placeholder="Email usado na conta" required>
-                <div class="icon"><i class="fas fa-user"></i></div>
-            </div>
-            <div class="input_box button">
-                <input type="submit" value="Redefinir palavra-passe">
-            </div>
-        </form>
-    </div>
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "elitecars";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Erro na conexão: " . $conn->connect_error);
+    }
+
+    if (isset($_GET['token']) && !empty($_GET['token'])) {
+        $token = $_GET['token'];
+
+        $query = "SELECT email FROM reset_tokens WHERE token = '$token' AND tempo_expirar > NOW()";
+        $result = $conn->query($query);
+
+        if ($result->num_rows > 0) {
+            echo '<div class="main_div">
+                <div class="title">Redefinir Senha</div>
+                <form action="efetuar_reset.php?token=' . $token . '" method="post">
+                    <div class="input_box">
+                        <input type="password" name="new_password" placeholder="Nova Senha" required>
+                        <div class="icon"><i class="fas fa-lock"></i></div>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" name="confirm_password" placeholder="Confirmar Senha" required>
+                        <div class="icon"><i class="fas fa-lock"></i></div>
+                    </div>
+                    <div class="input_box button">
+                        <input type="submit" value="Redefinir Senha">
+                    </div>
+                </form>
+            </div>';
+        } else {
+            echo '<h1 style="text-align: center;">O token fornecido é inválido ou já expirou.</h1>';
+        }
+    } else {
+        echo '<div class="main_div">
+                    <div class="title">Redefinição de credenciais</div>
+                    <form action="reset_pass.php" method="post">
+                        <div class="input_box">
+                            <input type="text" name="email" placeholder="Email usado na conta" required>
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                        </div>
+                        <div class="input_box button">
+                            <input type="submit" value="Redefinir palavra-passe">
+                        </div>
+                    </form>
+                </div>';
+    }
+    ?>
 </body>
 
 </html>
