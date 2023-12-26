@@ -22,23 +22,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "As palavras-passe não coincidem.";
         } else {
 
-            $query = "SELECT email FROM reset_tokens WHERE token = '$token' AND tempo_expirar > NOW()";
-            $result = $conn->query($query);
+            $query = "SELECT email FROM reset_tokens WHERE token = ? AND tempo_expirar > NOW()";
+            $stmt = $conn->prepare($query);
 
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $email_token = $row['email'];
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            if ($stmt) {
+                $stmt->bind_param("s", $token);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-                $sql = "UPDATE utilizadores SET pass = '$hashed_password' WHERE email = '$email_token'";
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $email_token = $row['email'];
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                    $sql = "UPDATE utilizadores SET pass = ? WHERE email = ?";
+                    $stmt_update = $conn->prepare($sql);
 
-                if ($conn->query($sql) === TRUE) {
-                    header("Location: login.php");
+
+                    if ($stmt_update) {
+                        $stmt_update->bind_param("ss", $hashed_password, $email_token);
+                        if ($stmt_update->execute()) {
+                            header("Location: login.php");
+                        } else {
+                            echo "Erro na atualização da senha: " . $stmt_update->error;
+                        }
+                        $stmt_update->close();
+                    } else {
+                        echo "Erro na preparação da consulta de atualização: " . $conn->error;
+                    }
                 } else {
-                    echo "Erro na atualização da senha: " . $conn->error;
+                    echo "Token inválido ou expirado.";
                 }
+
+                $stmt->close();
             } else {
-                echo "Token inválido ou expirado.";
+                echo "Erro na preparação da consulta: " . $conn->error;
             }
         }
     }

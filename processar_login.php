@@ -18,7 +18,7 @@ if (isset($_COOKIE['remember_me'])) {
     if (is_numeric($user_id)) {
         $token_esperado = hash('sha256', $secretKey . $user_id);
 
-        if ($token === $token_esperado) {
+        if (hash_equals($token_esperado, $token)) {
             $_SESSION['user_id'] = $user_id; // marcar o utilizador como logado
             header("Location: index.php");
             exit();
@@ -26,28 +26,31 @@ if (isset($_COOKIE['remember_me'])) {
     }
 }
 
-// verificar se houve um request post no form do login.php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $passwordInput = $_POST["password"];
 
-    $sql = "SELECT id, user, pass FROM utilizadores WHERE (user = '$username' OR email = '$username')";
-    $result = $conn->query($sql);
+    // Use prepared statements para evitar injeção SQL
+    $stmt = $conn->prepare("SELECT id, user, pass FROM utilizadores WHERE (user = ? OR email = ?)");
+    $stmt->bind_param("ss", $username, $username);
+    $stmt->execute();
+    $stmt->store_result();
 
     // verificar se existe utilizador com o login
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($user_id, $user, $hashed_password);
+        $stmt->fetch();
 
         // verificar password com hash
-        if (password_verify($passwordInput, $row["pass"])) {
-            $_SESSION["user_id"] = $row["id"];
-            $_SESSION["username"] = $row["user"];
+        if (password_verify($passwordInput, $hashed_password)) {
+            $_SESSION["user_id"] = $user_id;
+            $_SESSION["username"] = $user;
 
             // verificar se a opção "Lembrar-me" está marcada
             if (isset($_POST['remember_me']) && $_POST['remember_me'] == 'on') {
                 // cria o cookie
-                $token = hash('sha256', $secretKey . $_SESSION['user_id']);
-                setcookie('remember_me', $_SESSION['user_id'] . ':' . $token, time() + 60 * 60 * 24 * 30); // expira em 30 dias
+                $token = password_hash($secretKey . $user_id, PASSWORD_DEFAULT);
+                setcookie('remember_me', $user_id . ':' . $token, time() + 60 * 60 * 24 * 30); // expira em 30 dias
             } else {
                 setcookie('remember_me', '', time() - 3600);
             }
@@ -61,6 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     }
+
+    $stmt->close();
 }
 
 $conn->close();

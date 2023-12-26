@@ -63,9 +63,12 @@ $_SESSION['last_activity'] = time();
 
     if (isset($_GET['token']) && !empty($_GET['token'])) {
         $token = $_GET['token'];
-
-        $query = "SELECT email FROM reset_tokens WHERE token = '$token' AND tempo_expirar > NOW()";
-        $result = $conn->query($query);
+        
+        $query = "SELECT email FROM reset_tokens WHERE token = ? AND tempo_expirar > NOW()";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $token);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             echo '<div class="main_div">

@@ -219,7 +219,7 @@ button:before {
 }
 
 .product-title {
-    margin-top: -20px;
+    margin-top: 20px;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     color: rgb(255, 135, 67);

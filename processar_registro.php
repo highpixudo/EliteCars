@@ -21,11 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password != $confirm_password) {
         $error_message = "As palavras-passe não coincidem.";
     } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO utilizadores (user, email, pass, foto) VALUES (?, ?, ?, 'assets/user-img.png')";
+        $stmt = $conn->prepare($sql);
 
-        $sql = "INSERT INTO utilizadores (user, email, pass, foto) VALUES ('$username', '$email', '$hashed_password', 'assets/user-img.png')";
-        if ($conn->query($sql) === TRUE) {
-            header("Location: login.php");
+        if ($stmt) {
+
+            $stmt->bind_param("sss", $username, $email, $hashed_password);
+
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            if ($stmt->execute()) {
+                header("Location: login.php");
+            } else {
+                echo "Erro ao executar a consulta: " . $stmt->error;
+            }
+            $stmt->close();
+        } else {
+            echo "Erro na preparação da consulta: " . $conn->error;
         }
     }
 }

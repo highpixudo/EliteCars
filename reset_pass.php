@@ -16,8 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = $_POST["email"];
 
-    $sql = "SELECT * FROM utilizadores WHERE email = '$email'";
-    $result = $conn->query($sql);
+    // Use prepared statement para evitar injeção SQL
+    $stmt = $conn->prepare("SELECT * FROM utilizadores WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         // gerar um token único para a redefinição de senha
@@ -26,11 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         date_default_timezone_set('Europe/Lisbon');
         $expiryTimestamp = strtotime('+1 hour');
         $formattedExpiry = date('Y-m-d H:i:s', $expiryTimestamp);
-        
-        // armazenar o token na base de dados com o email e o timestamp de expiração
-        $sql = "INSERT INTO reset_tokens (email, token, tempo_expirar) VALUES ('$email', '$token', '$formattedExpiry')";
-        $conn->query($sql);
-        
+
+        // Use prepared statement para evitar injeção SQL
+        $stmt_insert = $conn->prepare("INSERT INTO reset_tokens (email, token, tempo_expirar) VALUES (?, ?, ?)");
+        $stmt_insert->bind_param("sss", $email, $token, $formattedExpiry);
+        $stmt_insert->execute();
+
         // construir o link de redefinição
         $resetLink = "http://localhost/EliteCars/reset.php?token=$token";
 
@@ -42,10 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->SMTPAuth = true;
             $mail->Username = 'guilhermecatarino8@gmail.com';
             $mail->Password = 'bejnrumfegbzdwno';
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
             $mail->CharSet = 'UTF-8';
-            
+
             $mail->setFrom('guilhermecatarino8@gmail.com');
             $mail->addAddress($email);
             $mail->Subject = 'Redefinição de Credenciais - EliteCars';
@@ -60,9 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Exception Message: {$e->getMessage()}";
             echo "<br>";
             echo "SMTP Debug Output:<pre>" . $mail->SMTPDebug . "</pre>";
-        }  
+        } finally {
+            $stmt_insert->close();
+        }
     }
 
+    $stmt->close();
     $conn->close();
 }
 ?>

@@ -24,17 +24,21 @@ if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $uploadPath .= $filename;
 
     move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath);
+    
+    $stmt = $conn->prepare("UPDATE utilizadores SET foto = ? WHERE user = ?");
+    $stmt->bind_param("ss", $uploadPath, $username);
 
-    $response = array('success' => true, 'username' => $username, 'filename' => $filename);
-    echo json_encode($response);
-
-    $sql = "UPDATE utilizadores SET foto = '$uploadPath' WHERE user = '{$_SESSION['username']}'";
-
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
+        $response = array('success' => true, 'username' => $username, 'filename' => $filename);
+        echo json_encode($response);
         exit();
+    } else {
+        // Trate erros de execução da consulta adequadamente
+        $response = array('success' => false, 'error' => $stmt->error);
+        echo json_encode($response);
     }
 
-    header("Location: conta.php");
+    $stmt->close();
 } else {
     $response = array('success' => false);
     echo json_encode($response);
