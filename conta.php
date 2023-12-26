@@ -26,7 +26,7 @@ if (isset($_COOKIE['remember_me']) && !empty($_COOKIE['remember_me'])) {
 }
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionLifetime)) {
-    // A sessão expirou
+    // a sessão expirou
     session_unset();
     session_destroy();
 }
@@ -126,8 +126,8 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     </span>
                 </h2>
 
-                <h3 class="text-details-home">Faça a gestão das suas informações, da privacidade e da segurança nos serviços <span
-                        class="elite">Elite</span><span class="cars">Cars</span>.</h3>
+                <h3 class="text-details-home">Faça a gestão das suas informações, da privacidade e da segurança nos serviços
+                    <span class="elite">Elite</span><span class="cars">Cars</span>.</h3>
 
                 <div class="container-infos">
                     <div class="informacoes">
@@ -197,14 +197,8 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
             break;
         case 'language':
             ?>
-            <div class="language-switcher">
-                <label for="language-select">Escolher idioma:</label>
-                <select id="language-select">
-                    <option value="pt">Português</option>
-                    <option value="en">English</option>
-                </select>
-                <button id="change-language">Aplicar</button>
-            </div>
+            
+
             <?php
             break;
         default:

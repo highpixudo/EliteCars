@@ -167,8 +167,3 @@ body {
     cursor: pointer;
     border-radius: 5px;
 }
-
-.language-switcher {
-    display: flex;
-    justify-content: center;
-}

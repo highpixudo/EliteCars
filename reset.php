@@ -23,7 +23,7 @@ if (isset($_COOKIE['remember_me']) && !empty($_COOKIE['remember_me'])) {
 }
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionLifetime)) {
-    // A sessão expirou
+    // a sessão expirou
     session_unset();
     session_destroy();
 }
