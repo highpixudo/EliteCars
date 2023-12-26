@@ -10,6 +10,8 @@ if ($conn->connect_error) {
     die("Erro na conexão com a base de dados: " . $conn->connect_error);
 }
 
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass_atual = $_POST["senha-atual"];
     $pass = $_POST["senha-nova"];
@@ -25,12 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (password_verify($pass_atual, $row["pass"]) && $pass == $confirm_pass) {
         $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
-        
+
         $sql_update = "UPDATE utilizadores SET pass = ? WHERE user = ?";
         $stmt_update = $conn->prepare($sql_update);
         $stmt_update->bind_param("ss", $hashed_password, $username);
         $stmt_update->execute();
-        
+
         if ($stmt_update->affected_rows > 0) {
             header("Location: conta.php");
         } else {

@@ -65,8 +65,8 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                 echo 'class="active" id="texto-main-conta"'; ?>><i class='bx bxs-home'></i>Página inicial</a></li>
             <li><a href="?section=account" id="texto-info-conta" <?php if ($current_section === 'account')
                 echo 'class="active"'; ?>><i class='bx bxs-user-account'></i>Informações da conta</a></li>
-            <li><a href="?section=reset_pass" id="alterar-senha" <?php if ($current_section === 'reset_pass')
-                echo 'class="active"'; ?>><i class='bx bxs-key'></i>Alterar senha</a></li>
+            <li><a href="?section=reset_pass" id="texto-alterar-senha" <?php if ($current_section === 'reset_pass')
+                echo 'class="active" id="texto-alterar-senha"'; ?>><i class='bx bxs-key'></i>Alterar senha</a></li>
 
             <?php
             $servername = "localhost";
@@ -346,35 +346,33 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                 break;
             case 'reset_pass':
                 ?>
-                <div class="account-info">
-                    <div>
-                        <h2>Alteração de senha</h2>
-                    </div>
+                <form action="alterar_senha.php" method="post">
+                    <div class="account-info">
+                        <div>
+                            <h2>Alteração de senha</h2>
+                        </div>
 
-                    <div class="content-reset">
-                        <label for="senha">Senha atual</label>
-                        <input type="text" name="senha-atual" required>
-                    </div>
+                        <div class="content-reset">
+                            <label for="senha">Senha atual</label>
+                            <input type="password" name="senha-atual" required>
+                        </div>
 
-                    <div class="content-reset">
-                        <label for="confirm">Nova senha</label>
-                        <input type="text" name="senha-nova" required>
-                    </div>
+                        <div class="content-reset">
+                            <label for="nova-senha">Nova senha</label>
+                            <input type="password" name="senha-nova" required>
+                        </div>
 
-                    <div class="content-reset">
-                        <label for="nacionalidade">Confirme a nova senha</label>
-                        <input type="text" name="senha-nova-confirm" required>
-                    </div>
+                        <div class="content-reset">
+                            <label for="nova-senha-confirm">Confirme a nova senha</label>
+                            <input type="password" name="senha-nova-confirm" required>
+                        </div>
 
-                    <div class="buttons">
-                        <form action="conta.php">
-                            <button class="btn-redf">Cancelar</button>
-                        </form>
-                        <form action="alterar-senha.php" method="post">
-                            <button class="btn-atualizar">Atualizar</button>
-                        </form>
+                        <div class="buttons">
+                            <a href="conta.php" class="btn-redf">Cancelar</a>
+                            <button type="submit" class="btn-atualizar">Atualizar</button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <?php
             default:
                 break;

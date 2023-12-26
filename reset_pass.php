@@ -16,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = $_POST["email"];
 
-    // Use prepared statement para evitar injeção SQL
     $stmt = $conn->prepare("SELECT * FROM utilizadores WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -30,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $expiryTimestamp = strtotime('+1 hour');
         $formattedExpiry = date('Y-m-d H:i:s', $expiryTimestamp);
 
-        // Use prepared statement para evitar injeção SQL
         $stmt_insert = $conn->prepare("INSERT INTO reset_tokens (email, token, tempo_expirar) VALUES (?, ?, ?)");
         $stmt_insert->bind_param("sss", $email, $token, $formattedExpiry);
         $stmt_insert->execute();

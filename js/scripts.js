@@ -37,7 +37,7 @@ $(document).ready(function () {
             $('.copyright').text('Copyright © 2023, EliteCars. All rights reserved.');
             $('#texto-main-conta').html('<i class="bx bxs-home"></i> Home page');
             $('#texto-info-conta').html('<i class= "bx bxs-user-account" ></i > Account information');
-            $('#texto-linguagem').html('<i class="bx bx-globe"></i>Change region');
+            $('#texto-alterar-senha').html('<i class="bx bxs-key"></i>Change password');
             $('#texto-sessao').html('<i class="bx bx-log-out"></i>Log out');
             $('.welcome-text').html('Welcome back, <span class=\'nome_utilizador\'>' + username + '</span>');
             $('.text-details-home').html('Manage your information, privacy and security in <span class= "elite" > Elite</span><span class="cars">Cars</span> services.');
@@ -64,7 +64,7 @@ $(document).ready(function () {
             $('.copyright').text('Copyright © 2023, EliteCars. Todos os direitos reservados.');
             $('#texto-main-conta').html('<i class="bx bxs-home"></i>Página inicial');
             $('#texto-info-conta').html('<i class= "bx bxs-user-account" ></i > Informações da conta');
-            $('#texto-linguagem').html('<i class="bx bx-globe"></i>Mudar região');
+            $('#texto-alterar-senha').html('<i class="bx bxs-key"></i>Alterar senha');
             $('#texto-sessao').html('<i class="bx bx-log-out"></i>Encerrar sessão');
             $('.welcome-text').html('Bem vindo, <span class=\'nome_utilizador\'>' + username + '</span>');
             $('.text-details-home').html('Faça a gestão das suas informações, da privacidade e da segurança nos serviços <span class= "elite" > Elite</span><span class="cars">Cars</span>.');
