@@ -208,7 +208,7 @@ body {
     position: relative;
 }
 
-.form-group .bx.bxs-edit {
+.form-group .bx {
     position: absolute;
     top: 50%;
     right: 25px;
@@ -313,4 +313,21 @@ body {
 
 .content-reset input {
     padding-right: 30px;
+}
+
+#password-strength-bar {
+    max-width: calc(100% - 19px);
+    margin-left: 1px;
+    height: 10px;
+    margin-top: -5px;
+    margin-bottom: 20px;
+    background-color: #c9c9c9;
+    overflow: hidden;
+}
+
+#password-strength-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    /* Cor de preenchimento da barra */
+    transition: width 0.3s;
 }

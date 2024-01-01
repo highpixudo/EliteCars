@@ -174,11 +174,11 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         </div>
 
                         <div class="seguranca">
-                            <h3>Linguagem e região</h3>
-                            <h4>Consulte e altere a região da sua Conta e dos serviços EliteCars, bem como a linguagem em que
-                                visualiza o mesmo.</h4>
+                            <h3>Segurança da conta</h3>
+                            <h4>Consulte e altere a palavra-passe da sua Conta e dos serviços EliteCars, para garantir mais
+                                segurança.</h4>
                             <hr>
-                            <a href="?section=language">Gerir linguagem e região</a>
+                            <a href="?section=reset_pass">Mudar palavra-passe</a>
                         </div>
                     </div>
                 </div>
@@ -255,125 +255,236 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         <h2>Definições de perfil</h2>
                     </div>
 
-                    <div id="content-account-info" class="flex-container">
-                        <div class="adjust-labels">
-                            <div class="form-group" id="editableInput">
-                                <label for="nome">Nome</label>
-                                <input type="text" name="nome" id="nome" value="<?php echo $row['nome']; ?>" disabled>
-                                <i class='bx bxs-edit' onclick="enableInput()"></i>
+                    <form action="atualizar_dados.php" method="post">
+                        <div id="content-account-info" class="flex-container">
+                            <div class="adjust-labels">
+                                <div class="form-group" id="editableInputnome">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" name="nome" id="nome" value="<?php echo $row['nome']; ?>" readonly>
+                                    <i class='bx bxs-edit' id="nome-edit" onclick="enableEdit('nome')"></i>
+                                    <i class='bx bx-check' id="nome-check"
+                                        style="display: none;position: absolute;top: 50%;right: 50px;color: #888;cursor: pointer;"
+                                        onclick="confirmEdit('nome')"></i>
+                                    <i class='bx bx-x' id="nome-cancel" style="display: none;"
+                                        onclick="cancelEdit('nome', '<?php echo $row['nome']; ?>')"></i>
+                                </div>
+
+                                <div class="form-group" id="editableInputsobrenome">
+                                    <label for="sobrenome">Sobrenome</label>
+                                    <input type="text" name="sobrenome" id="sobrenome" value="<?php echo $row['sobrenome']; ?>"
+                                        readonly>
+                                    <i class='bx bxs-edit' id="sobrenome-edit" onclick="enableEdit('sobrenome')"></i>
+                                    <i class='bx bx-check' id="sobrenome-check"
+                                        style="display: none;position: absolute;top: 50%;right: 50px;color: #888;cursor: pointer;"
+                                        onclick="confirmEdit('sobrenome')"></i>
+                                    <i class='bx bx-x' id="sobrenome-cancel" style="display: none;"
+                                        onclick="cancelEdit('sobrenome', '<?php echo $row['sobrenome']; ?>')"></i>
+                                </div>
                             </div>
 
-                            <div class="form-group" id="editableInput">
-                                <label for="sobrenome">Sobrenome</label>
-                                <input type="text" name="sobrenome" id="sobrenome" value="<?php echo $row['sobrenome']; ?>"
-                                    disabled>
-                                <i class='bx bxs-edit' onclick="enableInput()"></i>
-                            </div>
-                        </div>
+                            <div class="adjust-labels">
+                                <div class="form-group" id="editableInputuser">
+                                    <label for="user">Nome de utilizador</label>
+                                    <input type="text" name="user" id="user" value="<?php echo $row['user']; ?>">
+                                    <i class='bx bxs-edit' id="user-edit" onclick="enableEdit('user')"></i>
+                                    <i class='bx bx-check' id="user-check"
+                                        style="display: none;position: absolute;top: 50%;right: 50px;color: #888;cursor: pointer;"
+                                        onclick="confirmEdit('user')"></i>
+                                    <i class='bx bx-x' id="user-cancel" style="display: none;"
+                                        onclick="cancelEdit('user', '<?php echo $row['user']; ?>')"></i>
+                                </div>
 
-                        <div class="adjust-labels">
-                            <div class="form-group" id="editableInput">
-                                <label for="user">Nome de utilizador</label>
-                                <input type="text" name="user" id="user" value="<?php echo $row['user']; ?>" disabled>
-                                <i class='bx bxs-edit' onclick="enableInput()"></i>
-                            </div>
-
-                            <div class="form-group" id="editableInput">
-                                <label for="mail">Endereço de email</label>
-                                <input type="text" name="mail" id="mail" value="<?php echo $row['email']; ?>" disabled>
-                                <i class='bx bxs-edit' onclick="enableInput()"></i>
-                            </div>
-                        </div>
-                        <div class="adjust-labels">
-                            <div class="form-group">
-                                <label for="numtele">Numero de telefone</label>
-                                <input type="text" name="numtele" id="numtele" value="<?php echo $row['num_tel']; ?>" disabled>
-                                <i class='bx bxs-edit' onclick="enableInput()"></i>
+                                <div class="form-group" id="editableInputmail">
+                                    <label for="mail">Endereço de email</label>
+                                    <input type="text" name="mail" id="mail" value="<?php echo $row['email']; ?>">
+                                    <i class='bx bxs-edit' id="mail-edit" onclick="enableEdit('mail')"></i>
+                                    <i class='bx bx-check' id="mail-check"
+                                        style="display: none;position: absolute;top: 50%;right: 50px;color: #888;cursor: pointer;"
+                                        onclick="confirmEdit('mail')"></i>
+                                    <i class='bx bx-x' id="mail-cancel" style="display: none;"
+                                        onclick="cancelEdit('mail', '<?php echo $row['email']; ?>')"></i>
+                                </div>
                             </div>
 
-                            <div class="form-group" id="editableInput">
-                                <label for="nacionalidade">Nacionalidade</label>
-                                <select name="nacionalidade" id="nacionalidade-select"></select>
+                            <div class="adjust-labels">
+                                <div class="form-group" id="editableInputnumtele">
+                                    <label for="numtele">Numero de telefone</label>
+                                    <input type="text" name="numtele" id="numtele" value="<?php echo $row['num_tel']; ?>">
+                                    <i class='bx bxs-edit' id="numtele-edit" onclick="enableEdit('numtele')"></i>
+                                    <i class='bx bx-check' id="numtele-check"
+                                        style="display: none;position: absolute;top: 50%;right: 50px;color: #888;cursor: pointer;"
+                                        onclick="confirmEdit('numtele')"></i>
+                                    <i class='bx bx-x' id="numtele-cancel" style="display: none;"
+                                        onclick="cancelEdit('numtele', '<?php echo $row['num_tel']; ?>')"></i>
+                                </div>
+
+                                <div class="form-group" id="editableInputnacionalidade">
+                                    <label for="nacionalidade">Nacionalidade</label>
+                                    <select name="nacionalidade" id="nacionalidade-select"></select>
+                                </div>
                             </div>
-                        </div>
 
+                            <div class="buttons">
+                                <button class="btn-atualizar">Atualizar</button>
+                            </div>
+                    </form>
 
-                        <script>
-                            // API REST Countries
-                            fetch('https://restcountries.com/v3.1/all')
-                                .then(response => response.json())
-                                .then(data => {
-                                    const selectElement = document.getElementById('nacionalidade-select');
-                                    data.forEach(country => {
-                                        const option = document.createElement('option');
-                                        option.value = country.name.common;
-                                        option.text = country.name.common;
-                                        selectElement.appendChild(option);
-                                    });
+                    <script>
+                        function enableEdit(inputId) {
+                            var inputElement = document.getElementById(inputId);
 
-                                    const existingValue = "<?php echo $row['nacionalidade']; ?>";
-                                    if (existingValue) {
-                                        selectElement.value = existingValue;
-                                    }
-                                })
-                                .catch(error => console.error('Erro ao obter dados da API:', error));
-                        </script>
+                            inputElement.removeAttribute('readonly');
+                            inputElement.focus();
+                            document.getElementById(inputId + '-edit').style.display = 'none';
+                            document.getElementById(inputId + '-check').style.display = 'inline';
+                            document.getElementById(inputId + '-cancel').style.display = 'inline';
+                        }
+                        function cancelEdit(inputId, originalValue) {
+                            var inputElement = document.getElementById(inputId);
 
-                        <script>
-                            function enableInput() {
-                                var inputContainer = document.getElementById('editableInput');
-                                inputContainer.classList.add('active');
-                                var inputField = inputContainer.querySelector('input');
-                                inputField.removeAttribute('disabled');
-                                inputField.focus();
+                            inputElement.value = originalValue;
+                            inputElement.setAttribute('readonly', 'true');
+                            document.getElementById(inputId + '-edit').style.display = 'inline';
+                            document.getElementById(inputId + '-check').style.display = 'none';
+                            document.getElementById(inputId + '-cancel').style.display = 'none';
+                        }
+
+                        function confirmEdit(inputId) {
+                            var inputElement = document.getElementById(inputId);
+                            var inputValue = inputElement.value;
+
+                            if (inputId === 'mail' && !validateEmail(inputValue)) {
+                                alert('Endereço de email inválido. Certifique-se de incluir "@".');
+                                inputElement.focus();
+                                return false;
                             }
 
-                            function disableInput() {
-                                var inputContainer = document.getElementById('editableInput');
-                                inputContainer.classList.remove('active');
-                                var inputField = inputContainer.querySelector('input');
-                                inputField.setAttribute('disabled', 'disabled');
+                            if (inputId === 'numtele' && (!/^\d+$/.test(inputValue) || inputValue.length > 9)) {
+                                alert('Número de telefone deve conter apenas números e ter no máximo 9 caracteres.');
+                                inputElement.focus();
+                                return false;
                             }
-                        </script>
 
-                        <div class="buttons">
-                            <button class="btn-redf">Redefinir dados</button>
-                            <button class="btn-atualizar">Atualizar</button>
-                        </div>
-                    </div>
+                            inputElement.setAttribute('readonly', 'true');
+                            document.getElementById(inputId + '-edit').style.display = 'inline';
+                            document.getElementById(inputId + '-check').style.display = 'none';
+                            document.getElementById(inputId + '-cancel').style.display = 'none';
+                        }
+
+                        function validateEmail(email) {
+                            var emailRegex = /\S+@\S+\.\S+/;
+                            return emailRegex.test(email);
+                        }
+                    </script>
+
+
+                    <script>
+                        // API REST Countries
+                        fetch('https://restcountries.com/v3.1/all')
+                            .then(response => response.json())
+                            .then(data => {
+                                const selectElement = document.getElementById('nacionalidade-select');
+                                data.forEach(country => {
+                                    const option = document.createElement('option');
+                                    option.value = country.name.common;
+                                    option.text = country.name.common;
+                                    selectElement.appendChild(option);
+                                });
+
+                                const existingValue = "<?php echo $row['nacionalidade']; ?>";
+                                if (existingValue) {
+                                    selectElement.value = existingValue;
+                                }
+                            })
+                            .catch(error => console.error('Erro ao obter dados da API:', error));
+                    </script>
                 </div>
-                <?php
-                break;
+            </div>
+            <?php
+            break;
             case 'reset_pass':
                 ?>
-                <form action="alterar_senha.php" method="post">
-                    <div class="account-info">
-                        <div>
-                            <h2>Alteração de senha</h2>
-                        </div>
-
-                        <div class="content-reset">
-                            <label for="senha">Senha atual</label>
-                            <input type="password" name="senha-atual" required>
-                        </div>
-
-                        <div class="content-reset">
-                            <label for="nova-senha">Nova senha</label>
-                            <input type="password" name="senha-nova" required>
-                        </div>
-
-                        <div class="content-reset">
-                            <label for="nova-senha-confirm">Confirme a nova senha</label>
-                            <input type="password" name="senha-nova-confirm" required>
-                        </div>
-
-                        <div class="buttons">
-                            <a href="conta.php" class="btn-redf">Cancelar</a>
-                            <button type="submit" class="btn-atualizar">Atualizar</button>
-                        </div>
+            <form action="alterar_senha.php" method="post">
+                <div class="account-info">
+                    <div>
+                        <h2>Alteração de senha</h2>
                     </div>
-                </form>
-                <?php
+
+                    <div class="content-reset">
+                        <label for="senha">Senha atual</label>
+                        <input type="password" name="senha-atual" required>
+                    </div>
+
+                    <div class="content-reset">
+                        <label for="nova-senha">Nova senha</label>
+                        <input type="password" id="senha-nova" name="senha-nova" oninput="checkPasswordStrength()" required>
+                        <div id="password-strength-bar">
+                            <div id="password-strength-fill"></div>
+                        </div>
+
+                    </div>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            checkPasswordStrength();
+                            document.getElementById('senha-nova').addEventListener('input', checkPasswordStrength);
+                        });
+
+
+                        function checkPasswordStrength() {
+                            var password = document.getElementById('senha-nova').value;
+                            var strengthFill = document.getElementById('password-strength-fill');
+                            var strength = 0;
+
+                            if (/[A-Z]/.test(password)) {
+                                strength += 1;
+                            }
+
+                            if (/\d/.test(password)) {
+                                strength += 1;
+                            }
+
+                            if (password.length >= 8) {
+                                strength += 1;
+                            }
+
+                            if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?()@._]/.test(password)) {
+                                strength += 1;
+                            }
+
+                            var color = getColorForStrength(strength);
+                            strengthFill.style.width = (strength * 25) + '%';
+                            strengthFill.style.backgroundColor = color;
+                        }
+
+                        function getColorForStrength(strength) {
+                            if (strength === 1) {
+                                return '#ff0000'; // Vermelho
+                            } else if (strength === 2) {
+                                return '#ff9900'; // Laranja
+                            } else if (strength === 3) {
+                                return '#ffc222'; // Amarelo
+                            } else if (strength === 4) {
+                                return '#85c734'; // Verde
+                            }
+                        }
+
+
+
+                    </script>
+
+                    <div class="content-reset">
+                        <label for="nova-senha-confirm">Confirme a nova senha</label>
+                        <input type="password" name="senha-nova-confirm" required>
+                    </div>
+
+                    <div class="buttons">
+                        <a href="conta.php" class="btn-redf">Cancelar</a>
+                        <button type="submit" class="btn-atualizar">Atualizar</button>
+                    </div>
+                </div>
+            </form>
+            <?php
             default:
                 break;
         }
