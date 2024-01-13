@@ -165,7 +165,6 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         }
                     });
 
-                    // Handle change event for modelo-select
                     $('#modelo-select').change(function () {
                         var marcaSelecionada = $('#marca-select').val();
                         var modeloSelecionado = $(this).val();
