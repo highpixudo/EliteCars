@@ -41,7 +41,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
             <?php
             if (isset($_SESSION["username"])) {
                 echo '<a href="./" class="register" id="home">Início</a>';
-                echo '<a href="" class="register" id="cars">Carros</a>';
+                echo '<a href="veiculos.php" class="register" id="cars">Veículos</a>';
                 echo '<a href="" class="register" id="about">Sobre</a>';
                 echo '<a href="conta.php" class="register" id="account">Conta</a>';
             } else {
@@ -127,21 +127,30 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                                 die("Erro na conexão com a base de dados: " . $conn->connect_error);
                             }
 
-                            $sql = 'SELECT foto FROM utilizadores WHERE user = \'' . $_SESSION['username'] . '\'';
-                            $result = $conn->query($sql);
+                            $sql = 'SELECT foto FROM utilizadores WHERE user = ?';
+                            $stmt = $conn->prepare($sql);
 
-                            if ($result) {
+                            if ($stmt) {
+                                $stmt->bind_param('s', $_SESSION['username']);
+
+                                $stmt->execute();
+
+                                $result = $stmt->get_result();
+
                                 if ($result->num_rows > 0) {
                                     $row = $result->fetch_assoc();
                                     $imagePath = $row['foto'];
                                     echo "<img id='previewImage' src='$imagePath' onclick='openFileInput()'>";
                                 }
+
+                                $stmt->close();
                             } else {
-                                echo "Erro na consulta: " . $conn->error;
+                                echo "Erro na preparação da consulta: " . $conn->error;
                             }
 
                             $conn->close();
                             ?>
+
                             <input type="file" name="file" id="fileInput" style="display: none;" onchange="previewImage()">
                         </div>
 

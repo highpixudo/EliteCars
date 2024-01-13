@@ -30,7 +30,7 @@ $(document).ready(function () {
       $('.product-details-porsche').text("The Porsche Panamera is a luxury sports saloon that balances exceptional Porsche performance with the comfort of a four-door sedan. Launched in 2009, it stands out for a variety of powerful engines, automatic dual-clutch transmission for quick shifts, and an elegant design. With impressive acceleration, capable of reaching 0 to 100 km/h in quick times, the Panamera offers an exhilarating driving experience. Its luxurious, technology-packed interior complements Porsche's commitment to performance, style and sophistication.");
       $('.comprar-produto-destaque').text('Buy now');
       $('#home').text('Home');
-      $('#cars').text('Cars');
+      $('#cars').text('Vehicles');
       $('#about').text('About');
       $('#account').text('Account');
       $('.contacto').text('Contact: +351 123 456 789');
@@ -58,7 +58,7 @@ $(document).ready(function () {
       $('.product-details-porsche').text("O Porsche Panamera é uma berlina desportiva de luxo que equilibra o desempenho excecional da Porsche com o conforto de um sedã de quatro portas. Lançado em 2009, destaca-se por uma variedade de motores potentes, transmissão automática de dupla embreagem para trocas rápidas, e um design elegante. Com aceleração impressionante, capaz de atingir 0 a 100 km/h em tempos rápidos, o Panamera oferece uma experiência de condução emocionante. O seu interior luxuoso, repleto de tecnologia, complementa o compromisso da Porsche com desempenho, estilo e sofisticação.");
       $('.comprar-produto-destaque').text('Comprar');
       $('#home').text('Início');
-      $('#cars').text('Carros');
+      $('#cars').text('Veículos');
       $('#about').text('Sobre');
       $('#account').text('Conta');
       $('.contacto').text('Contacto: +351 123 456 789');

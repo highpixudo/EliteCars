@@ -44,7 +44,7 @@ $_SESSION['last_activity'] = time();
             <?php
             if (isset($_SESSION["username"])) {
                 echo '<a href="./" class="register" id="home">Início</a>';
-                echo '<a href="" class="register" id="cars">Carros</a>';
+                echo '<a href="veiculos.php" class="register" id="cars">Veículos</a>';
                 echo '<a href="" class="register" id="about">Sobre</a>';
                 echo '<a href="conta.php" class="register" id="account">Conta</a>';
             } else {

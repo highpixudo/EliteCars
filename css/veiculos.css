@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    background-color: #D9D9D9;
+    font-family: 'Poppins', 'Sans-Serif';
+}
+
+.veiculos {
+    margin-top: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: calc(65% + 30px);
+}
+
+.pesquisa {
+    display: flex;
+}
+
+.pesquisa input {
+    font-size: 15px;
+    width: calc(100%);
+    background-color: #ededed;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 0px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.pesquisa button {
+    cursor: pointer;
+    background-color: #FF8743;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 0 4px 4px 0;
+}
+
+.categoria {
+    margin-top: 10px;
+}
+
+.categoria h2 {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.categoria label {
+    font-size: 14px;
+}
+
+.form-group {
+    width: 20%;
+    display: inline-block;
+}
+
+.form-group-1 {
+    display: inline-block;
+}
+
+.categoria select,
+.categoria input {
+    width: 95%;
+    background-color: #ededed;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 0px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.categoria input {
+    width: 20%;
+}
+
+.line-vehicles {
+    margin-top: 15px;
+    border: 0;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.marca-modelo {
+    margin-top: 10px;
+}
+
+.marca-modelo label {
+    font-size: 14px;
+}
+
+.marca-modelo select,
+.marca-modelo input{
+    width: 95%;
+    background-color: #ededed;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 0px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
