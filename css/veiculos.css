@@ -5,6 +5,38 @@ body {
     font-family: 'Poppins', 'Sans-Serif';
 }
 
+.items-container {
+    text-align: center;
+}
+
+.item {
+    border: 1px solid rgba(217, 217, 217, 0.8);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+    background: rgba(217, 217, 217, 0.8);
+    border: 2px solid #FF8743;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #FF8743;
+}
+
+.item img {
+    margin-top: 20px;
+    margin: 10px;
+}
+
+.item h3 {
+    font-family: 'Poppins', 'Sans-Serif';
+    font-weight: 700;
+    font-size: 25px;
+    margin: 10px;
+}
+
+.item .price {
+    margin-bottom: 10px;
+}
+
 .veiculos {
     margin-top: 10px;
     position: absolute;
@@ -101,4 +133,73 @@ body {
     border: 0px solid #ccc;
     border-radius: 4px;
     outline: none;
+}
+
+.buttons .button_detalhes {
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    width: 200px;
+}
+
+.button_detalhes {
+    border-radius: 5px;
+    background: #FF8743;
+    border: 2px solid #FF8743;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    width: 250px;
+    animation: glowing 1500ms infinite;
+}
+
+.price span {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #FF8743;
+    margin-top: auto;
+}
+
+.price {
+    position: relative;
+}
+
+.price span:not(:last-child):not(:nth-child(4)) {
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    animation: flip 3s infinite;
+    animation-delay: calc(0.3s * var(--i));
+}
+
+.buttons {
+    justify-content: center;
+    display: flex;
+}
+
+@keyframes flip {
+
+    0%,
+    70% {
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 3px #FF8743;
+    }
+
+    50% {
+        box-shadow: 0 0 20px #FF8743;
+    }
+
+    100% {
+        box-shadow: 0 0 3px #FF8743;
+    }
 }

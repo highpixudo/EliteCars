@@ -42,13 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'guilhermecatarino8@gmail.com';
-            $mail->Password = 'bejnrumfegbzdwno';
+            $mail->Username = 'elitecars.corp@gmail.com';
+            $mail->Password = 'jgukcletponvkfhg';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
             $mail->CharSet = 'UTF-8';
 
-            $mail->setFrom('guilhermecatarino8@gmail.com');
+            $mail->setFrom('elitecars.corp@gmail.com');
             $mail->addAddress($email);
             $mail->Subject = 'Redefinição de Credenciais - EliteCars';
             $mail->Body = "Clique no seguinte link para redefinir a sua palavra-passe: $resetLink";

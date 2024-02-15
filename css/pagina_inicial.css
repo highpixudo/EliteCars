@@ -316,7 +316,6 @@ button:before {
 
 #language:hover {
     background-color: #f5f5f5;
-    /* Altere a cor de fundo ao passar o mouse */
 }
 
 #language option:hover {
@@ -384,8 +383,6 @@ button:before {
         width: 150px;
     }
 }
-
-
 
 @keyframes flip {
 

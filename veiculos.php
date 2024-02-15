@@ -11,6 +11,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>EliteCars - Veículos</title>
 </head>
+
 <?php
 $host = "localhost";
 $usuario = "root";
@@ -70,9 +71,10 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
     ?>
     <div class="veiculos">
         <div class="pesquisa">
-            <input type="text" placeholder="O que procura?">
-            <button type="submit"><i class='bx bx-search-alt-2'></i></button>
+            <input type="text" id="pesquisa-input" placeholder="O que procura?">
+            <button type="button" id="pesquisa-button"><i class='bx bx-search-alt-2'></i></button>
         </div>
+
         <div class="categoria">
             <div class="form-group" id="editableInputnacionalidade">
                 <label>Categoria</label>
@@ -95,7 +97,6 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
         </div>
 
         <hr class="line-vehicles">
-
         <div class="marca-modelo">
             <div class="form-group" id="editableInputmarca">
                 <label>Marca</label>
@@ -124,25 +125,39 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     </select>
                 </div>
             </div>
-
             <script>
                 $(document).ready(function () {
-                    // Disable these selects initially
                     $('#modelo-select').prop('disabled', true);
                     $('#submodelo-select').prop('disabled', true);
 
-                    // Handle change event for marca-select
+                    $('#marca-select, #modelo-select, #submodelo-select').change(function () {
+                        updateVeiculos();
+                    });
+
+                    $('#pesquisa-button').click(function () {
+                        updateVeiculos();
+                    });
+
+                    $('#pesquisa-input').keypress(function (e) {
+                        if (e.which === 13) {
+                            updateVeiculos();
+                        }
+                    });
+
+                    updateVeiculos();
+
                     $('#marca-select').change(function () {
                         var marcaSelecionada = $(this).val();
 
                         if (marcaSelecionada === 'mostrar_tudo') {
-                            $('#modelo-select').prop('disabled', true);
-                            $('#submodelo-select').prop('disabled', true);
+                            $('#modelo-select').prop('disabled', true).val('mostrar_tudo1');
+                            $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
                         } else {
                             $('#modelo-select').prop('disabled', false);
-                            $('#submodelo-select').prop('disabled', false);
+                            $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
 
-                            // Ajax call to get modelos
+                            $('#modelo-select').val('mostrar_tudo1');
+
                             $.ajax({
                                 type: 'POST',
                                 url: 'get_modelos.php',
@@ -170,9 +185,9 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         var modeloSelecionado = $(this).val();
 
                         if (modeloSelecionado === 'mostrar_tudo1') {
-                            $('#submodelo-select').prop('disabled', true);
+                            $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
                         } else {
-                            $('#submodelo-select').prop('disabled', false);
+                            $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
 
                             $.ajax({
                                 type: 'POST',
@@ -183,8 +198,13 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                                     var submodeloSelect = $('#submodelo-select');
                                     submodeloSelect.empty();
 
+                                    submodeloSelect.append('<option value="mostrar_tudo2">Mostrar Tudo</option>');
+
                                     $.each(submodelos, function (index, submodelo) {
-                                        submodeloSelect.append('<option value="' + submodelo + '">' + submodelo + '</option>');
+                                        if (submodelo != '') {
+                                            submodeloSelect.prop('disabled', false);
+                                            submodeloSelect.append('<option value="' + submodelo + '">' + submodelo + '</option>');
+                                        }
                                     });
                                 },
                                 error: function (xhr, status, error) {
@@ -195,15 +215,50 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     });
                 });
             </script>
-
-
             <div class="form-group" id="editableInputsubmodelo">
                 <label>Sub-modelo</label>
                 <div class="flex-container">
-                    <select name="submodelo" id="submodelo-select"></select>
+                    <select name="submodelo" id="submodelo-select">
+                        <option value="mostrar_tudo2">Mostrar Tudo</option>
+                    </select>
                 </div>
             </div>
+
         </div>
+
+        <div class="items-container"></div>
+        <script>
+            $(document).ready(function () {
+                $('#marca-select, #modelo-select, #submodelo-select').change(function () {
+                    updateVeiculos();
+                });
+            });
+
+            function updateVeiculos() {
+                var marcaSelecionada = $('#marca-select').val();
+                var modeloSelecionado = $('#modelo-select').val();
+                var submodeloSelecionado = $('#submodelo-select').val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'atualizar_veiculos.php',
+                    data: {
+                        marca: marcaSelecionada,
+                        modelo: modeloSelecionado,
+                        submodelo: submodeloSelecionado
+                    },
+                    dataType: 'html',
+                    success: function (html) {
+                        console.log("a");
+                        $('.items-container').html(html);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erro na requisição AJAX: ' + xhr.responseText);
+                    }
+                });
+            }
+        </script>
+
+
     </div>
 
 </body>

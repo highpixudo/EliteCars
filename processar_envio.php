@@ -33,7 +33,6 @@ if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
         echo json_encode($response);
         exit();
     } else {
-        // Trate erros de execução da consulta adequadamente
         $response = array('success' => false, 'error' => $stmt->error);
         echo json_encode($response);
     }
