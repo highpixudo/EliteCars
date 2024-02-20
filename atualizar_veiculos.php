@@ -17,8 +17,8 @@ $pesquisaTermo = isset($_POST['pesquisaTermo']) ? $_POST['pesquisaTermo'] : '';
 
 $sql = "SELECT nome, marca, modelo, submodelo, preco, foto FROM carros WHERE 1";
 
-$bindParams = array();
 $paramTypes = "";
+$bindParams = array();
 
 if ($marcaSelecionada != 'mostrar_tudo') {
     $sql .= " AND marca = ?";
@@ -26,7 +26,7 @@ if ($marcaSelecionada != 'mostrar_tudo') {
     $bindParams[] = $marcaSelecionada;
 }
 
-if ($modeloSelecionado != 'mostrar_tudo1') {
+if ($modeloSelecionado != 'mostrar_tudo1' && !empty($modeloSelecionado)) {
     $sql .= " AND modelo = ?";
     $paramTypes .= "s";
     $bindParams[] = $modeloSelecionado;
@@ -39,20 +39,18 @@ if ($submodeloSelecionado != 'mostrar_tudo2') {
 }
 
 if (!empty($pesquisaTermo)) {
-    $sql .= " AND (marca LIKE ? OR modelo LIKE ? OR submodelo LIKE ? OR nome LIKE ?)";
-    $paramTypes .= "ssss";
+    $sql = "SELECT nome, marca, modelo, submodelo, preco, foto FROM carros WHERE nome LIKE ?";
     $pesquisaTermoSeguro = "%$pesquisaTermo%";
-    $bindParams[] = $pesquisaTermoSeguro;
-    $bindParams[] = $pesquisaTermoSeguro;
-    $bindParams[] = $pesquisaTermoSeguro;
-    $bindParams[] = $pesquisaTermoSeguro;
 }
 
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
-    if (!empty($bindParams)) {
+    if (!empty($bindParams) and empty($pesquisaTermo)) {
         $stmt->bind_param($paramTypes, ...$bindParams);
+    }
+    else if (!empty($pesquisaTermo)){
+        $stmt->bind_param("s", $pesquisaTermoSeguro);
     }
 
     $stmt->execute();

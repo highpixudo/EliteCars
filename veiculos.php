@@ -70,10 +70,11 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
     }
     ?>
     <div class="veiculos">
-        <div class="pesquisa">
-            <input type="text" id="pesquisa-input" placeholder="O que procura?">
-            <button type="button" id="pesquisa-button"><i class='bx bx-search-alt-2'></i></button>
-        </div>
+            <div class="pesquisa">
+                <input type="text" id="pesquisaTermo" name="pesquisaTermo" placeholder="O que procura?">
+                <button type="button" id="pesquisa-button"><i class='bx bx-search-alt-2'></i></button>
+            </div>
+
 
         <div class="categoria">
             <div class="form-group" id="editableInputnacionalidade">
@@ -138,7 +139,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         updateVeiculos();
                     });
 
-                    $('#pesquisa-input').keypress(function (e) {
+                    $('#pesquisaTermo').keypress(function (e) {
                         if (e.which === 13) {
                             updateVeiculos();
                         }
@@ -153,10 +154,10 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                             $('#modelo-select').prop('disabled', true).val('mostrar_tudo1');
                             $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
                         } else {
+                            console.log("chamado")
                             $('#modelo-select').prop('disabled', false);
-                            $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
-
                             $('#modelo-select').val('mostrar_tudo1');
+                            $('#submodelo-select').prop('disabled', true).val('mostrar_tudo2');
 
                             $.ajax({
                                 type: 'POST',
@@ -238,17 +239,18 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                 var marcaSelecionada = $('#marca-select').val();
                 var modeloSelecionado = $('#modelo-select').val();
                 var submodeloSelecionado = $('#submodelo-select').val();
+                var pesquisaTermo = $('#pesquisaTermo').val();
                 $.ajax({
                     type: 'POST',
                     url: 'atualizar_veiculos.php',
                     data: {
                         marca: marcaSelecionada,
                         modelo: modeloSelecionado,
-                        submodelo: submodeloSelecionado
+                        submodelo: submodeloSelecionado,
+                        pesquisaTermo: pesquisaTermo
                     },
                     dataType: 'html',
                     success: function (html) {
-                        console.log("a");
                         $('.items-container').html(html);
                     },
                     error: function (xhr, status, error) {
