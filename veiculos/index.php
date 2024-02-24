@@ -228,6 +228,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
         </div>
 
         <div class="items-container"></div>
+        
         <script>
             $(document).ready(function () {
                 $('#marca-select, #modelo-select, #submodelo-select').change(function () {

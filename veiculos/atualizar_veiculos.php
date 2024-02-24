@@ -15,7 +15,7 @@ $modeloSelecionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
 $submodeloSelecionado = isset($_POST['submodelo']) ? $_POST['submodelo'] : '';
 $pesquisaTermo = isset($_POST['pesquisaTermo']) ? $_POST['pesquisaTermo'] : '';
 
-$sql = "SELECT nome, marca, modelo, submodelo, preco, foto FROM carros WHERE 1";
+$sql = "SELECT id, nome, marca, modelo, submodelo, preco, foto FROM carros WHERE 1";
 
 $paramTypes = "";
 $bindParams = array();
@@ -39,7 +39,7 @@ if ($submodeloSelecionado != 'mostrar_tudo2') {
 }
 
 if (!empty($pesquisaTermo)) {
-    $sql = "SELECT nome, marca, modelo, submodelo, preco, foto FROM carros WHERE nome LIKE ?";
+    $sql = "SELECT id, nome, marca, modelo, submodelo, preco, foto FROM carros WHERE nome LIKE ?";
     $pesquisaTermoSeguro = "%$pesquisaTermo%";
 }
 
@@ -48,8 +48,7 @@ $stmt = $conn->prepare($sql);
 if ($stmt) {
     if (!empty($bindParams) and empty($pesquisaTermo)) {
         $stmt->bind_param($paramTypes, ...$bindParams);
-    }
-    else if (!empty($pesquisaTermo)){
+    } else if (!empty($pesquisaTermo)) {
         $stmt->bind_param("s", $pesquisaTermoSeguro);
     }
 
@@ -78,11 +77,14 @@ if ($stmt) {
 
             $html .= '<span>€</span>';
             $html .= '</div>';
+
             $html .= '<div class="buttons">';
-            $html .= '<a href="#" class="button_detalhes">Ver Detalhes</a>';
+            $html .= '<a href="anuncio/detalhes_carro.php?id=' . $row['id'] . '" class="button_detalhes">Ver Detalhes</a>';
             $html .= '</div>';
+
             $html .= '</div>';
         }
+
 
         $html .= '</div>';
 

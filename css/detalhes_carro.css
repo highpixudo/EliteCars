@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    background-color: #D9D9D9;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Sans-Serif';
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 75%;
+    margin: auto;
+    height: 150vh;
+    border: 1px solid rgba(217, 217, 217, 0.8);
+    margin-bottom: 50px;
+    padding: 10px;
+    text-align: center;
+    background: rgba(217, 217, 217, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.left,
+.right {
+    width: 50%;
+    padding: 30px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex1 {
+    display: flex;
+}   
+
+.main_image {
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+}
+
+.right {
+    text-align: left;
+    padding: 50px 100px 50px 50px;
+}
+
+h3 {
+    color: #FF8743;
+    margin: 20px 0 20px 0;
+    font-size: 25px;
+}
+
+h5,
+p,
+small {
+    color: #837D7C;
+}
+
+h4 {
+    color: red;
+}
+
+p {
+    margin: 20px 0 50px 0;
+    line-height: 25px;
+}
+
+h5 {
+    font-size: 15px;
+}
+
+button {
+    margin-top: 210px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background: #FF8743;
+    border: 2px solid #FF8743;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    animation: glowing 1500ms infinite;
+}
+
+@media only screen and (max-width:768px) {
+    .container {
+        max-width: 90%;
+        margin: auto;
+        height: auto;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width:511px) {
+    .container {
+        max-width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .left,
+    .right {
+        padding: 0;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .option {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
