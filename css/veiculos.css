@@ -169,7 +169,7 @@ body {
     position: relative;
 }
 
-.price span:not(:last-child):not(:nth-child(4)) {
+.price span:not(:last-child):not(:nth-child(3)) {
     position: relative;
     display: inline-block;
     text-transform: uppercase;

@@ -44,12 +44,12 @@ $_SESSION['last_activity'] = time();
             <?php
             if (isset($_SESSION["username"])) {
                 echo '<a href="./" class="register" id="home">Início</a>';
-                echo '<a href="veiculos.php" class="register" id="cars">Veículos</a>';
-                echo '<a href="" class="register" id="about">Sobre</a>';
-                echo '<a href="conta.php" class="register" id="account">Conta</a>';
+                echo '<a href="./veiculos" class="register" id="cars">Veículos</a>';
+                echo '<a href="./" class="register" id="about">Sobre</a>';
+                echo '<a href="./conta" class="register" id="account">Conta</a>';
             } else {
-                echo '<a href="signup.php" class="register" id="create">Criar conta</a>';
-                echo '<a href="login.php" class="login" id="login">Entrar</a>';
+                echo '<a href="./signup" class="register">Criar conta</a>';
+                echo '<a href="./login" class="login">Entrar</a>';
             }
             ?>
         </div>
@@ -180,7 +180,7 @@ $_SESSION['last_activity'] = time();
             <div class="socialicons">
                 <a href="https://www.instagram.com" target="_blank"><i class='bx bxl-instagram'></i></a>
                 <a href="https://www.facebook.com" target="_blank"><i class='bx bxl-facebook-circle'></i></a>
-                <a href="https://www.twitter.com" target="_blank"><i class='bx bxl-twitter'></i></a>
+                <a href="https://twitter.com/EliteCars287124" target="_blank"><i class='bx bxl-twitter'></i></a>
 
                 <p>Email: suporte@elitecars.com</p>
                 <p class="contacto">Contacto: +351 123 456 789</p>
