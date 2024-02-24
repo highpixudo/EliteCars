@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $passwordInput = $_POST["password"];
 
-    // Use prepared statements para evitar injeção SQL
     $stmt = $conn->prepare("SELECT id, user, pass FROM utilizadores WHERE (user = ? OR email = ?)");
     $stmt->bind_param("ss", $username, $username);
     $stmt->execute();
@@ -55,12 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie('remember_me', '', time() - 3600);
             }
 
-            // Configuração do tempo de vida da sessão (tempo de vida da sessão padrão: até o navegador ser fechado)
-            $sessionLifetime = 0; // 0 significa até o navegador ser fechado
+            $sessionLifetime = 0;
             ini_set('session.cookie_lifetime', $sessionLifetime);
             ini_set('session.gc_maxlifetime', $sessionLifetime);
 
-            header("Location: index.php");
+            header("Location: ../");
             exit();
         }
     }

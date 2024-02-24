@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Body = "Clique no seguinte link para redefinir a sua palavra-passe: $resetLink";
             $mail->send();
 
-            header('Location: index.php');
+            header('Location: ../');
             exit;
         } catch (Exception $e) {
             echo "Erro ao enviar o email: {$mail->ErrorInfo}";

@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_update->execute();
 
         if ($stmt_update->affected_rows > 0) {
-            header("Location: conta.php");
+            header("Location: ../conta");
         } else {
             echo "Erro ao atualizar a senha.";
         }

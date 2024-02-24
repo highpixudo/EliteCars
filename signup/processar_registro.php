@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             if ($stmt->execute()) {
-                header("Location: login.php");
+                header("Location: ../login");
             } else {
                 echo "Erro ao executar a consulta: " . $stmt->error;
             }
