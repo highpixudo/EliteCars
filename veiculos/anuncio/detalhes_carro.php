@@ -79,24 +79,67 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
     if ($result_detalhes && $row_detalhes = mysqli_fetch_assoc($result_detalhes)) {
 
         ?>
-        <section class="seccao" style="background-color: #D9D9D9;">
-            <div class="container flex">
-                <div class="left">
-                    <div class="main_image">
-                        <?php echo '<img class="slide" src="../veiculos_fotos/' . $row_detalhes['foto'] . '.png" >'; ?>
+        <div class="container">
+            <div class="detail">
+                <div class="image">
+                    <?php echo '<img src="../veiculos_fotos/' . $row_detalhes['foto'] . '.png" >'; ?>
+                </div>
+                <div class="content">
+                    <?php echo '<h1 class="name">' . $row_detalhes['nome'] . '</h1>';
+                    $preco = number_format($row_detalhes['preco'], 0, ',', ' ');
+                    $precoArray = str_split(str_replace(',', '', $preco));
+
+                    echo '<div class="price">' . $preco . '€</div>'; ?>
+
+                    <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos cupiditate autem
+                        earum nostrum asperiores soluta laudantium, illum dolorem, molestiae error quam! Excepturi est quia
+                        iusto distinctio nam aperiam repellendus ratione.</div>
+
+
+                    <div class="icons">
+                        <div class="icon-container">
+                            <i class='bx bx-tachometer'></i>
+                            <span class="tooltip">57 900 km</span>
+                        </div>
+                        <div class="icon-container">
+                            <i class='bx bx-gas-pump'></i>
+                            <span class="tooltip">Diesel</span>
+                        </div>
+                        <div class="icon-container">
+                            <i class='bx bx-cog'></i>
+                            <span class="tooltip">116 cv</span>
+                        </div>
+                        <div class="icon-container">
+                            <i class='bx bx-calendar'></i>
+                            <span class="tooltip">2022</span>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <button>Test Drive</button>
+                        <button>Comprar Agora
+                            <span>
+                                <svg class="" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 18 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="favorito">
+                        <a href="">
+                            <div class="icon-container">
+                                <i class='bx bx-heart'></i>
+                                <span class="tooltip">Adicionar aos favoritos</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
-                <div class="right">
-                    <?php echo '<h3>' . $row_detalhes['nome'] . '</h3>'; ?>
-                    <h4> <small>$</small>999.99 </h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. </p>
-
-                    <button>Add to Bag</button>
-                </div>
             </div>
-        </section>
+        </div>
 
         <?php
     }
