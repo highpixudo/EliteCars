@@ -201,7 +201,11 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     <p>Ultima vez online dia 12 de Fevereiro de 2023</p>
                 </div>
                 <div class="botao-contact">
-                    <button>Contactar</button>
+                    <form action="/elitecars/mensagens?user=<?php echo urlencode($row_detalhes["anunciante"]); ?>"
+                        method="post">
+                        <button type="submit">Contactar</button>
+                    </form>
+
                 </div>
             </div>
             <div class="comments-section">
