@@ -91,27 +91,29 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
 
                     echo '<div class="price">' . $preco . '€</div>'; ?>
 
-                    <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos cupiditate autem
-                        earum nostrum asperiores soluta laudantium, illum dolorem, molestiae error quam! Excepturi est quia
+                    <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos cupiditate
+                        autem
+                        earum nostrum asperiores soluta laudantium, illum dolorem, molestiae error quam! Excepturi est
+                        quia
                         iusto distinctio nam aperiam repellendus ratione.</div>
 
 
                     <div class="icons">
                         <div class="icon-container">
                             <i class='bx bx-tachometer'></i>
-                            <span class="tooltip">57 900 km</span>
+                            <?php echo '<span class="tooltip">' . $row_detalhes['km'] . ' km</span>'; ?>
                         </div>
                         <div class="icon-container">
                             <i class='bx bx-gas-pump'></i>
-                            <span class="tooltip">Diesel</span>
+                            <?php echo '<span class="tooltip">' . $row_detalhes['combustivel'] . '</span>'; ?>
                         </div>
                         <div class="icon-container">
                             <i class='bx bx-cog'></i>
-                            <span class="tooltip">116 cv</span>
+                            <?php echo '<span class="tooltip">' . $row_detalhes['cv'] . ' cv</span>'; ?>
                         </div>
                         <div class="icon-container">
                             <i class='bx bx-calendar'></i>
-                            <span class="tooltip">2022</span>
+                            <?php echo '<span class="tooltip">' . $row_detalhes['datafabricacao'] . '</span>'; ?>
                         </div>
                     </div>
 
@@ -129,17 +131,150 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         </button>
                     </div>
 
+                    <?php
+                    $car_id = $_GET['id'];
+
+                    $sql_check_favorite = "SELECT COUNT(*) AS favorito FROM favoritos WHERE user = ? AND id_anuncio = ?";
+                    $stmt_check_favorite = $conn->prepare($sql_check_favorite);
+                    $stmt_check_favorite->bind_param("ss", $_SESSION['username'], $car_id);
+                    $stmt_check_favorite->execute();
+                    $result_check_favorite = $stmt_check_favorite->get_result();
+                    $row_check_favorite = $result_check_favorite->fetch_assoc();
+                    $is_favorite = $row_check_favorite['favorito'] > 0;
+                    ?>
+
                     <div class="favorito">
-                        <a href="">
+                        <a href="#" class="add-to-favorites" data-car-id="<?php echo $car_id; ?>">
                             <div class="icon-container">
-                                <i class='bx bx-heart'></i>
-                                <span class="tooltip">Adicionar aos favoritos</span>
+                                <?php
+                                if ($is_favorite) {
+                                    echo '<i class="bx bx-heart"></i>';
+                                    echo '<span class="tooltip"> Remover dos favoritos</span>';
+                                } else {
+                                    echo '<i class="bx bx-heart"></i>';
+                                    echo '<span class="tooltip"> Adicionar aos favoritos</span>';
+                                }
+                                ?>
                             </div>
                         </a>
                     </div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $(".add-to-favorites").on("click", function (e) {
+                                e.preventDefault();
+
+                                var carId = obterIdAnuncioDaURL();
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "adicionar_fav.php",
+                                    data: { id_anuncio: carId, user: "<?php echo $_SESSION['username']; ?>" },
+                                    success: function (response) {
+                                        alert(response);
+                                    },
+                                    error: function (error) {
+                                        console.error("Erro na solicitação AJAX:", error);
+                                    }
+                                });
+                            });
+                        });
+
+                        function obterIdAnuncioDaURL() {
+                            var url = window.location.href;
+                            var urlParams = new URLSearchParams(url.split('?')[1]);
+                            var idAnuncio = urlParams.get('id');
+
+                            return idAnuncio;
+                        }
+                    </script>
+
+
                 </div>
             </div>
+            <div class="contact-vendor">
+                <div class="contact-image">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2815/2815428.png" alt="Foto do Vendedor">
+                </div>
+                <div class="contact-info">
+                    <?php echo '<h2>@' . $row_detalhes["anunciante"] . '</h2> '; ?>
+                    <p>Ultima vez online dia 12 de Fevereiro de 2023</p>
+                </div>
+                <div class="botao-contact">
+                    <button>Contactar</button>
+                </div>
+            </div>
+            <div class="comments-section">
+                <h2>Comentários</h2>
+
+                <form id="comment-form" method="post" action="">
+                    <div class="comment-input-container">
+                        <textarea id="comment" name="comment" rows="4"
+                            placeholder="Adicione um comentário público..."></textarea>
+                    </div>
+                    <button type="submit" name="submit_comment">Comentar</button>
+                </form>
+
+
+                <ul class="comments-list">
+                    <?php
+                    if (isset($_POST['submit_comment'])) {
+                        $commentText = mysqli_real_escape_string($conn, $_POST['comment']);
+                        $anuncio_id = $_GET['id'];
+
+                        $sql_insert_comment = "INSERT INTO comentarios (user, comentario, id_anuncio) VALUES (?, ?, ?)";
+                        $stmt_insert_comment = $conn->prepare($sql_insert_comment);
+                        $stmt_insert_comment->bind_param("sss", $_SESSION["username"], $commentText, $anuncio_id);
+
+                        if ($stmt_insert_comment->execute()) {
+                            // comentário adicionado com sucesso
+                        } else {
+                            // erro ao adicionar o comentário
+                            echo "Erro ao adicionar o comentário: " . $stmt_insert_comment->error;
+                        }
+
+                        $stmt_insert_comment->close();
+                    }
+
+                    $anuncio_id = $_GET['id'];
+                    $sql_get_comments = "SELECT comentarios.*, utilizadores.foto AS user_photo FROM comentarios
+                    INNER JOIN utilizadores ON comentarios.user = utilizadores.user
+                    WHERE comentarios.id_anuncio = ? ORDER BY comentarios.data_comentario DESC";
+
+                    $stmt_get_comments = $conn->prepare($sql_get_comments);
+                    $stmt_get_comments->bind_param("s", $anuncio_id);
+                    $stmt_get_comments->execute();
+                    $result_get_comments = $stmt_get_comments->get_result();
+
+                    if ($result_get_comments->num_rows > 0) {
+                        while ($row_comment = $result_get_comments->fetch_assoc()) {
+                            echo '<div class="teste">';
+                            echo '<li>';
+                            echo '<img src="' . htmlspecialchars("/elitecars/conta/" . $row_comment['user_photo']) . '" alt="User Photo" style="width:50px;height:50px;">';
+
+                            echo '<div class="user-info">';
+                            echo '<strong>@' . htmlspecialchars($row_comment['user']) . '</strong>';
+
+                            echo '<p class="comment-text">' . htmlspecialchars($row_comment['comentario']) . '</p>';
+                            echo '</div>';
+
+                            echo '</li>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<p>Sem comentários ainda.</p>';
+                        echo '</div>';
+                    }
+
+                    $stmt_get_comments->close();
+                    ?>
+
+
+                </ul>
+
+            </div>
         </div>
+
 
         <?php
     }

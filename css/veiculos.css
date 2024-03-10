@@ -125,7 +125,7 @@ body {
 }
 
 .marca-modelo select,
-.marca-modelo input{
+.marca-modelo input {
     width: 95%;
     background-color: #ededed;
     padding: 10px;
@@ -182,8 +182,16 @@ body {
     display: flex;
 }
 
-@keyframes flip {
+#favoritos {
+    margin-top: 20px;
+    background-color: #FF8743;
+}
 
+#favoritos:checked~.checkmark {
+    background-color: #FF8743;
+}
+
+@keyframes flip {
     0%,
     70% {
         transform: rotateY(360deg);

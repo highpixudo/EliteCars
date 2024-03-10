@@ -70,10 +70,10 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
     }
     ?>
     <div class="veiculos">
-            <div class="pesquisa">
-                <input type="text" id="pesquisaTermo" name="pesquisaTermo" placeholder="O que procura?">
-                <button type="button" id="pesquisa-button"><i class='bx bx-search-alt-2'></i></button>
-            </div>
+        <div class="pesquisa">
+            <input type="text" id="pesquisaTermo" name="pesquisaTermo" placeholder="O que procura?">
+            <button type="button" id="pesquisa-button"><i class='bx bx-search-alt-2'></i></button>
+        </div>
 
 
         <div class="categoria">
@@ -138,6 +138,10 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     $('#pesquisa-button').click(function () {
                         updateVeiculos();
                     });
+
+                    $('#favoritos').click(function () {
+                        updateVeiculos();
+                    })
 
                     $('#pesquisaTermo').keypress(function (e) {
                         if (e.which === 13) {
@@ -227,8 +231,13 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
 
         </div>
 
+        <div>
+            <input type="checkbox" id="favoritos" name="favoritos" />
+            <label for="favoritos">Apenas mostrar favoritos</label>
+        </div>
+
         <div class="items-container"></div>
-        
+
         <script>
             $(document).ready(function () {
                 $('#marca-select, #modelo-select, #submodelo-select').change(function () {
@@ -241,6 +250,8 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                 var modeloSelecionado = $('#modelo-select').val();
                 var submodeloSelecionado = $('#submodelo-select').val();
                 var pesquisaTermo = $('#pesquisaTermo').val();
+                var favorito = $('#favoritos').is(':checked') ? 1 : 0; 
+
                 $.ajax({
                     type: 'POST',
                     url: 'atualizar_veiculos.php',
@@ -248,7 +259,8 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         marca: marcaSelecionada,
                         modelo: modeloSelecionado,
                         submodelo: submodeloSelecionado,
-                        pesquisaTermo: pesquisaTermo
+                        pesquisaTermo: pesquisaTermo,
+                        favoritos: favorito  
                     },
                     dataType: 'html',
                     success: function (html) {
@@ -259,6 +271,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     }
                 });
             }
+
         </script>
 
 

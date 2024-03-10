@@ -213,7 +213,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                             if (xhr.status === 200) {
                                 var response = JSON.parse(xhr.responseText);
                                 if (response.success) {
-                                    document.getElementById('previewImage').src = 'uploads/' + response.username + '/' + response.filename;
+                                    document.getElementById('previewImage').src = '/elitecars/conta/uploads/' + response.username + '/' + response.filename;
                                 } else {
                                     console.error('Erro no envio do arquivo');
                                 }
@@ -493,6 +493,13 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     </div>
                 </div>
             </form>
+
+            <?php
+            break;
+            case 'admin':
+                $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'comentarios';
+                ?>
+
             <?php
             default:
                 break;

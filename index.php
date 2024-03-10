@@ -122,7 +122,7 @@ $_SESSION['last_activity'] = time();
                             <span style="--i:1">2</span>
                             <span style="--i:2">5</span>
                             <span style="--i:3">0</span>
-                            <span>,</span>
+                            <span>&nbsp;</span>
                             <span style="--i:5">0</span>
                             <span style="--i:6">0</span>
                             <span style="--i:7">0</span>
@@ -148,7 +148,7 @@ $_SESSION['last_activity'] = time();
                             <span style="--i:1">1</span>
                             <span style="--i:2">3</span>
                             <span style="--i:3">4</span>
-                            <span>,</span>
+                            <span>&nbsp;</span>
                             <span style="--i:5">3</span>
                             <span style="--i:6">4</span>
                             <span style="--i:7">1</span>

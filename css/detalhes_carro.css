@@ -7,54 +7,34 @@ body {
     margin: 0;
     padding: 0;
 }
-.container{
+
+.container {
+    height: 100%;
     width: 900px;
     margin: auto;
     max-width: 90vw;
     text-align: center;
-    padding-top: 10px;
 }
-.title{
-    font-size: xx-large;
-    padding: 20px 0;
-}
-.listProduct .item img{
-    width: 90%;
-    filter: drop-shadow(0 50px 20px #0009);
-}
-.listProduct{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-.listProduct .item{
-    background-color: #EEEEE6;
-    padding: 20px;
-    border-radius: 20px;
-}
-.listProduct .item h2{
-    font-weight: 500;
-    font-size: large;
-}
-.listProduct .item .price{
-    letter-spacing: 7px;
-    font-size: small;
-}
-.detail{
+
+
+.detail {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 50px;
     text-align: left;
 }
-.detail .image img{
+
+.detail .image img {
     width: 100%;
 }
-.detail .image{
+
+.detail .image {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .detail .image::before {
     position: absolute;
     width: 300px;
@@ -67,23 +47,27 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
 }
-.detail .name{
+
+.detail .name {
     font-size: xxx-large;
     padding: 40px 0 0 0;
     margin: 0 0 10px 0;
 }
-.detail .price{
+
+.detail .price {
     font-weight: bold;
     font-size: x-large;
     letter-spacing: 7px;
     margin-bottom: 50px;
 }
-.detail .buttons{
+
+.detail .buttons {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
 }
-.detail .buttons button{
+
+.detail .buttons button {
     cursor: pointer;
     background-color: #eee;
     border: none;
@@ -92,10 +76,12 @@ body {
     font-family: Poppins;
     font-size: large;
 }
-.detail .buttons svg{
+
+.detail .buttons svg {
     width: 15px;
 }
-.detail .buttons span{
+
+.detail .buttons span {
     background-color: #ff5e00;
     width: 30px;
     height: 30px;
@@ -105,15 +91,16 @@ body {
     border-radius: 50%;
     margin-left: 20px;
 }
-.detail .buttons button:nth-child(2){
+
+.detail .buttons button:nth-child(2) {
     background-color: #FF8743;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #eee;
-    box-shadow: 0 10px 20px #2F2F2F77;
 }
-.detail .description{
+
+.detail .description {
     font-weight: 300;
     margin-bottom: 20px;
 }
@@ -136,39 +123,169 @@ body {
     text-decoration: none;
 }
 
+.contact-vendor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    border: 2px solid #FF8743;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.contact-vendor .contact-image {
+    margin-right: 20px;
+}
+
+.contact-vendor img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 5px;
+}
+
+.contact-vendor .contact-info {
+    flex-grow: 1;
+}
+
+.contact-vendor h2 {
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+.contact-vendor p {
+    font-size: small;
+    margin-bottom: 20px;
+}
+
+.contact-vendor button {
+    cursor: pointer;
+    background-color: #FF8743;
+    border: none;
+    padding: 15px 100px;
+    border-radius: 10px;
+    font-family: Poppins;
+    font-size: large;
+    color: #eee;
+}
+
+.comments-section {
+    margin-top: 70px;
+}
+
+.comments-section h2 {
+    text-align: left;
+}
+
+.comments-list {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+}
+
+.comments-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.comments-list li img {
+    width: 50px;
+    height: 50px; 
+    object-fit: cover; 
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comments-list li .user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.comments-list li .comment-text {
+    flex-grow: 1;
+    max-width: calc(100% - 60px);
+    margin: 0;
+    word-wrap: break-word;
+}
+
+
+#comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.comment-input-container {
+    border-bottom: 1px solid #000;
+    overflow: hidden;
+}
+
+#comment {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    resize: none;
+    background-color: transparent;
+    height: auto;
+}
+
+#comment-form button {
+    text-align: right;
+    background-color: transparent;
+    color: #FF8743;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#comment-form button:hover {
+    color: #FF8743;
+}
+
 /* tablet */
 @media only screen and (max-width: 992px) {
-    .listProduct{
+    .listProduct {
         grid-template-columns: repeat(3, 1fr);
     }
-    .detail{
-        grid-template-columns:  40% 1fr;
+
+    .detail {
+        grid-template-columns: 40% 1fr;
     }
 }
 
 
 /* telefone */
 @media only screen and (max-width: 768px) {
-    .listProduct{
+    .listProduct {
         grid-template-columns: repeat(2, 1fr);
     }
-    .detail{
+
+    .detail {
         text-align: center;
         grid-template-columns: 1fr;
     }
-    .detail .image img{
+
+    .detail .image img {
         width: unset;
         height: 40vh;
-    } 
-    .detail .name{
+    }
+
+    .detail .name {
         font-size: x-large;
         margin: 0;
 
     }
-    .detail .buttons button{
+
+    .detail .buttons button {
         font-size: small;
     }
-    .detail .buttons{
+
+    .detail .buttons {
         justify-content: center;
     }
 }

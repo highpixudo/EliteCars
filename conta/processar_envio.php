@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $username = $_SESSION['username'];
     $filename = $_FILES['file']['name'];
-    $uploadPath = 'uploads/' . $username . '/';
+    $uploadPath = '/elitecars/conta/uploads/' . $username . '/';
 
     if (!file_exists($uploadPath)) {
         mkdir($uploadPath, 0777, true);

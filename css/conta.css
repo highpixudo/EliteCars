@@ -328,6 +328,41 @@ body {
 #password-strength-fill {
     height: 100%;
     background-color: #4CAF50;
-    /* Cor de preenchimento da barra */
     transition: width 0.3s;
 }
+
+:root {
+    --arrow-bg: #c7c7c7;
+    --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
+    --option-bg: rgb(255, 35, 35);
+    --select-bg: #c7c7c7;
+  }
+
+.admin-menu {
+    text-align: center;
+}
+  
+#admin-options {
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    width: 20rem;
+    padding: 1rem 4rem 1rem 1rem;
+    background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
+      linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+    color: white;
+    border-radius: 0.25em;
+    cursor: pointer;
+    &::-ms-expand {
+      display: none;
+    }
+    &:focus {
+      outline: none;
+    }
+    option {
+      color: inherit;
+      background-color: var(--option-bg);
+    }
+  }
+  
