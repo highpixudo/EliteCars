@@ -16,7 +16,7 @@ $(document).ready(function () {
 
   $('#language').on('change', function () {
     var selectedLanguage = $(this).val();
-    localStorage.setItem('language', selectedLanguage); // Armazena o idioma escolhido no localStorage
+    localStorage.setItem('language', selectedLanguage);
     changeLanguage(selectedLanguage);
   });
   window.changeLanguage = function (language) {
@@ -31,7 +31,7 @@ $(document).ready(function () {
       $('.comprar-produto-destaque').text('Buy now');
       $('#home').text('Home');
       $('#cars').text('Vehicles');
-      $('#about').text('About');
+      $('#about').text('Chat');
       $('#account').text('Account');
       $('.contacto').text('Contact: +351 123 456 789');
       $('.copyright').text('Copyright © 2023, EliteCars. All rights reserved.');
@@ -59,7 +59,7 @@ $(document).ready(function () {
       $('.comprar-produto-destaque').text('Comprar');
       $('#home').text('Início');
       $('#cars').text('Veículos');
-      $('#about').text('Sobre');
+      $('#about').text('Mensagens');
       $('#account').text('Conta');
       $('.contacto').text('Contacto: +351 123 456 789');
       $('.copyright').text('Copyright © 2023, EliteCars. Todos os direitos reservados.');

@@ -52,7 +52,7 @@ $_SESSION['last_activity'] = time();
             if (isset($_SESSION["username"])) {
                 echo '<a href="../" class="register" id="home">Início</a>';
                 echo '<a href="../veiculos" class="register" id="cars">Veículos</a>';
-                echo '<a href="" class="register" id="about">Sobre</a>';
+                echo '<a href="../mensagens" class="register" id="about">Mensagens</a>';
                 echo '<a href="../conta" class="register" id="account">Conta</a>';
             } else {
                 echo '<a href="../signup" class="register">Criar conta</a>';
@@ -70,43 +70,101 @@ $_SESSION['last_activity'] = time();
     ?>
 
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["user"]) && isset($_POST["message"])) {
-        $user = $_SESSION["username"];
-        $message = $_POST["message"];
 
-        $stmt = $conn->prepare("INSERT INTO chat_messages (user, message) VALUES (?, ?)");
-        $stmt->bind_param("ss", $user, $message);
-        $stmt->execute();
-        $stmt->close();
-    }
+    $username = $_SESSION["username"];
 
-    if (isset($_GET["user"])) {
-        $selectedUser = $_GET["user"];
-        $result = $conn->prepare("SELECT * FROM chat_messages WHERE user = ? ORDER BY timestamp DESC LIMIT 10");
-        $result->bind_param("s", $selectedUser);
-        $result->execute();
-        $result = $result->get_result();
+    $sql = "SELECT DISTINCT destinatario as contato FROM mensagens WHERE remetente = '$username'
+        UNION
+        SELECT DISTINCT remetente as contato FROM mensagens WHERE destinatario = '$username'";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $contatos = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $contatos[] = $row['contato'];
+        }
     } else {
-        $result = $conn->query("SELECT * FROM chat_messages ORDER BY timestamp DESC LIMIT 10");
+        $contatos = array();
     }
     ?>
 
-    <div id="chat-container">
-        <div id="chat-messages">
+    <div class="menu-lateral">
+        <ul>
             <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<p><strong>" . htmlspecialchars($row['user']) . ":</strong> " . htmlspecialchars($row['message']) . "</p>";
+            foreach ($contatos as $contato) {
+                echo "<li><a href='?chat=$contato'>$contato</a></li>";
+            }
+            ?>
+        </ul>
+    </div>
+
+
+    <div class="chat-content">
+        <div class="messages-container">
+
+            <?php
+            $contato = isset($_GET['chat']) ? $_GET['chat'] : '';
+
+            if (!empty($contato)) {
+                $sqlValidContact = "SELECT * FROM mensagens WHERE (remetente = '$username' AND destinatario = '$contato') OR (remetente = '$contato' AND destinatario = '$username')";
+                $resultValidContact = $conn->query($sqlValidContact);
+
+                if ($resultValidContact->num_rows > 0) {
+                    $sqlLoadMessages = "SELECT * FROM mensagens WHERE (remetente = '$username' AND destinatario = '$contato') OR (remetente = '$contato' AND destinatario = '$username')";
+                    $resultLoadMessages = $conn->query($sqlLoadMessages);
+
+                    $messages = array();
+
+                    while ($row = $resultLoadMessages->fetch_assoc()) {
+                        $messages[] = $row;
+                    }
+                } else {
+                    echo "Contacto inválido.";
+                    exit;
                 }
             } else {
-                echo "<p>Nenhuma mensagem disponível para este usuário.</p>";
+                echo "Selecione um contacto para começar o chat.";
+                exit;
+            }
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['mensagem'])) {
+                $mensagem = $_POST["mensagem"];
+
+                if (!empty($mensagem)) {
+                    $sqlInsertMessage = "INSERT INTO mensagens (remetente, destinatario, mensagem) VALUES ('$username', '$contato', '$mensagem')";
+                    $conn->query($sqlInsertMessage);
+
+                    $resultLoadMessages = $conn->query($sqlLoadMessages);
+
+                    $messages = array();
+
+                    while ($row = $resultLoadMessages->fetch_assoc()) {
+                        $messages[] = $row;
+                    }
+                }
+            }
+
+            $conn->close();
+            ?>
+
+            <?php
+            foreach ($messages as $message) {
+                $sender = $message['remetente'];
+                $messageText = $message['mensagem'];
+                echo "<div class='message'><strong>$sender:</strong> $messageText</div>";
             }
             ?>
         </div>
 
-        <form id="chat-form" method="post" action="">
-            <input type="text" name="message" placeholder="Digite sua mensagem" required>
-            <button type="submit">Enviar</button>
+        <form method="post" action="">
+            <div>
+                <textarea name="mensagem" placeholder="Escreva a sua mensagem"></textarea>
+            </div>
+            <div>
+                <button type="submit">Enviar</button>
+            </div>
         </form>
     </div>
 

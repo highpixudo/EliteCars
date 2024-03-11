@@ -53,7 +53,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
             if (isset($_SESSION["username"])) {
                 echo '<a href="/elitecars/" class="register" id="home">Início</a>';
                 echo '<a href="/elitecars/veiculos" class="register" id="cars">Veículos</a>';
-                echo '<a href="" class="register" id="about">Sobre</a>';
+                echo '<a href="../mensagens" class="register" id="about">Mensagens</a>';
                 echo '<a href="/elitecars/conta" class="register" id="account">Conta</a>';
             } else {
                 echo '<a href="/elitecars/signup" class="register">Criar conta</a>';
@@ -201,7 +201,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     <p>Ultima vez online dia 12 de Fevereiro de 2023</p>
                 </div>
                 <div class="botao-contact">
-                    <form action="/elitecars/mensagens?user=<?php echo urlencode($row_detalhes["anunciante"]); ?>"
+                    <form action="/elitecars/mensagens?chat=<?php echo urlencode($row_detalhes["anunciante"]); ?>"
                         method="post">
                         <button type="submit">Contactar</button>
                     </form>
