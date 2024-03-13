@@ -42,6 +42,72 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 }
 
 $_SESSION['last_activity'] = time();
+
+if (!isset($_SESSION["username"])) {
+    echo '<h1 style="text-align: center;">Não tem sessão iniciada, por favor <a href="../login">inicie sessão</a></h1>';
+    exit;
+}
+
+$username = $_SESSION["username"];
+
+$sql = "SELECT DISTINCT destinatario as contato FROM mensagens WHERE remetente = '$username'
+    UNION
+    SELECT DISTINCT remetente as contato FROM mensagens WHERE destinatario = '$username'";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $contatos = array();
+
+    while ($row = $result->fetch_assoc()) {
+        $contatos[] = $row['contato'];
+    }
+} else {
+    $contatos = array();
+}
+
+$contato = isset($_GET['chat']) ? $_GET['chat'] : '';
+
+if (!empty($contato)) {
+    $sqlValidContact = "SELECT * FROM utilizadores WHERE user = '$contato'";
+    $resultValidContact = $conn->query($sqlValidContact);
+
+    if ($resultValidContact->num_rows > 0) {
+        $sqlLoadMessages = "SELECT * FROM mensagens WHERE (remetente = '$username' AND destinatario = '$contato') OR (remetente = '$contato' AND destinatario = '$username')";
+        $resultLoadMessages = $conn->query($sqlLoadMessages);
+
+        $messages = array();
+
+        while ($row = $resultLoadMessages->fetch_assoc()) {
+            $messages[] = $row;
+        }
+    } else {
+        echo "Contacto inválido.";
+        exit;
+    }
+} else {
+    echo "Selecione um contacto para começar o chat.";
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['mensagem'])) {
+    $mensagem = $_POST["mensagem"];
+
+    if (!empty($mensagem)) {
+        $sqlInsertMessage = "INSERT INTO mensagens (remetente, destinatario, mensagem) VALUES ('$username', '$contato', '$mensagem')";
+        $conn->query($sqlInsertMessage);
+
+        $resultLoadMessages = $conn->query($sqlLoadMessages);
+
+        $messages = array();
+
+        while ($row = $resultLoadMessages->fetch_assoc()) {
+            $messages[] = $row;
+        }
+    }
+}
+
+$conn->close();
 ?>
 
 <body>
@@ -67,28 +133,7 @@ $_SESSION['last_activity'] = time();
         echo '<h1 style="text-align: center;">Não tem sessão iniciada, por favor <a href="../login">inicie sessão</a></h1>';
         return;
     }
-    ?>
-
-    <?php
-
-    $username = $_SESSION["username"];
-
-    $sql = "SELECT DISTINCT destinatario as contato FROM mensagens WHERE remetente = '$username'
-        UNION
-        SELECT DISTINCT remetente as contato FROM mensagens WHERE destinatario = '$username'";
-
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $contatos = array();
-
-        while ($row = $result->fetch_assoc()) {
-            $contatos[] = $row['contato'];
-        }
-    } else {
-        $contatos = array();
-    }
-    ?>
+    ?>  
 
     <div class="menu-lateral">
         <ul>
@@ -100,55 +145,8 @@ $_SESSION['last_activity'] = time();
         </ul>
     </div>
 
-
     <div class="chat-content">
         <div class="messages-container">
-
-            <?php
-            $contato = isset($_GET['chat']) ? $_GET['chat'] : '';
-
-            if (!empty($contato)) {
-                $sqlValidContact = "SELECT * FROM mensagens WHERE (remetente = '$username' AND destinatario = '$contato') OR (remetente = '$contato' AND destinatario = '$username')";
-                $resultValidContact = $conn->query($sqlValidContact);
-
-                if ($resultValidContact->num_rows > 0) {
-                    $sqlLoadMessages = "SELECT * FROM mensagens WHERE (remetente = '$username' AND destinatario = '$contato') OR (remetente = '$contato' AND destinatario = '$username')";
-                    $resultLoadMessages = $conn->query($sqlLoadMessages);
-
-                    $messages = array();
-
-                    while ($row = $resultLoadMessages->fetch_assoc()) {
-                        $messages[] = $row;
-                    }
-                } else {
-                    echo "Contacto inválido.";
-                    exit;
-                }
-            } else {
-                echo "Selecione um contacto para começar o chat.";
-                exit;
-            }
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['mensagem'])) {
-                $mensagem = $_POST["mensagem"];
-
-                if (!empty($mensagem)) {
-                    $sqlInsertMessage = "INSERT INTO mensagens (remetente, destinatario, mensagem) VALUES ('$username', '$contato', '$mensagem')";
-                    $conn->query($sqlInsertMessage);
-
-                    $resultLoadMessages = $conn->query($sqlLoadMessages);
-
-                    $messages = array();
-
-                    while ($row = $resultLoadMessages->fetch_assoc()) {
-                        $messages[] = $row;
-                    }
-                }
-            }
-
-            $conn->close();
-            ?>
-
             <?php
             foreach ($messages as $message) {
                 $sender = $message['remetente'];
