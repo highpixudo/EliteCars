@@ -21,7 +21,7 @@ $banco = "elitecars";
 $conn = new mysqli($host, $usuario, $senha, $banco);
 
 if ($conn->connect_error) {
-    die("Erro na conexão com a base de dados: " . $conn->connect_error);
+    die ("Erro na conexão com a base de dados: " . $conn->connect_error);
 }
 
 $secretKey = bin2hex(random_bytes(32));
@@ -31,18 +31,18 @@ session_start();
 $sessionLifetime = 1800; // 30 minutos em segundos
 
 // ajustar o tempo de vida da sessão se a checkbox "lembrar-me" estiver marcada
-if (isset($_COOKIE['remember_me']) && !empty($_COOKIE['remember_me'])) {
+if (isset ($_COOKIE['remember_me']) && !empty ($_COOKIE['remember_me'])) {
     $sessionLifetime = 60 * 60 * 24 * 30; // 30 dias em segundos
 }
 
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionLifetime)) {
+if (isset ($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionLifetime)) {
     // a sessão expirou
     session_unset();
     session_destroy();
 }
 
 $_SESSION['last_activity'] = time();
-$current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
+$current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
 ?>
 
 <body>
@@ -50,7 +50,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
         <a href="../" class="logo">ELITE</a>
         <div class="nav-buttons">
             <?php
-            if (isset($_SESSION["username"])) {
+            if (isset ($_SESSION["username"])) {
                 echo '<a href="../" class="register" id="home">Início</a>';
                 echo '<a href="../veiculos" class="register" id="cars">Veículos</a>';
                 echo '<a href="../mensagens" class="register" id="about">Mensagens</a>';
@@ -137,6 +137,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     $('#favoritos').click(function () {
                         updateVeiculos();
                     })
+
 
                     $('#pesquisaTermo').keypress(function (e) {
                         if (e.which === 13) {
@@ -235,7 +236,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
 
         <script>
             $(document).ready(function () {
-                $('#marca-select, #modelo-select, #submodelo-select').change(function () {
+                $('#marca-select, #modelo-select, #submodelo-select, #preco-de-input, #preco-ate-input').change(function () {
                     updateVeiculos();
                 });
             });
@@ -245,7 +246,9 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                 var modeloSelecionado = $('#modelo-select').val();
                 var submodeloSelecionado = $('#submodelo-select').val();
                 var pesquisaTermo = $('#pesquisaTermo').val();
-                var favorito = $('#favoritos').is(':checked') ? 1 : 0; 
+                var favorito = $('#favoritos').is(':checked') ? 1 : 0;
+                var precoDe = $('#preco-de-input').val();
+                var precoAte = $('#preco-ate-input').val();
 
                 $.ajax({
                     type: 'POST',
@@ -255,7 +258,9 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         modelo: modeloSelecionado,
                         submodelo: submodeloSelecionado,
                         pesquisaTermo: pesquisaTermo,
-                        favoritos: favorito  
+                        favoritos: favorito,
+                        precoDe: precoDe,
+                        precoAte: precoAte 
                     },
                     dataType: 'html',
                     success: function (html) {
@@ -266,6 +271,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     }
                 });
             }
+
 
         </script>
 

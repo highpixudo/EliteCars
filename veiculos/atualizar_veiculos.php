@@ -8,14 +8,14 @@ $banco = "elitecars";
 $conn = new mysqli($host, $usuario, $senha, $banco);
 
 if ($conn->connect_error) {
-    die("Erro na conexão com a base de dados: " . $conn->connect_error);
+    die ("Erro na conexão com a base de dados: " . $conn->connect_error);
 }
 
-$marcaSelecionada = isset($_POST['marca']) ? $_POST['marca'] : '';
-$modeloSelecionado = isset($_POST['modelo']) ? $_POST['modelo'] : '';
-$submodeloSelecionado = isset($_POST['submodelo']) ? $_POST['submodelo'] : '';
-$pesquisaTermo = isset($_POST['pesquisaTermo']) ? $_POST['pesquisaTermo'] : '';
-$favoritos = isset($_POST['favoritos']) ? $_POST['favoritos'] : 0;
+$marcaSelecionada = isset ($_POST['marca']) ? $_POST['marca'] : '';
+$modeloSelecionado = isset ($_POST['modelo']) ? $_POST['modelo'] : '';
+$submodeloSelecionado = isset ($_POST['submodelo']) ? $_POST['submodelo'] : '';
+$pesquisaTermo = isset ($_POST['pesquisaTermo']) ? $_POST['pesquisaTermo'] : '';
+$favoritos = isset ($_POST['favoritos']) ? $_POST['favoritos'] : 0;
 
 $sql = "SELECT id, nome, marca, modelo, submodelo, preco, foto FROM carros WHERE 1";
 
@@ -36,7 +36,8 @@ if ($favoritos == 1) {
         $bindParams[] = $marcaSelecionada;
     }
 
-    if ($modeloSelecionado != 'mostrar_tudo1' && !empty($modeloSelecionado)) {
+
+    if ($modeloSelecionado != 'mostrar_tudo1' && !empty ($modeloSelecionado)) {
         $sql .= " AND modelo = ?";
         $paramTypes .= "s";
         $bindParams[] = $modeloSelecionado;
@@ -48,7 +49,17 @@ if ($favoritos == 1) {
         $bindParams[] = $submodeloSelecionado;
     }
 
-    if (!empty($pesquisaTermo)) {
+    if (!empty ($_POST['precoDe'])) {
+        $precoDe = $_POST['precoDe'];
+        $sql .= " AND preco >= $precoDe";
+    }
+
+    if (!empty ($_POST['precoAte'])) {
+        $precoAte = $_POST['precoAte'];
+        $sql .= " AND preco <= $precoAte";
+    }
+
+    if (!empty ($pesquisaTermo)) {
         $sql = "SELECT id, nome, marca, modelo, submodelo, preco, foto FROM carros WHERE nome LIKE ?";
         $pesquisaTermoSeguro = "%$pesquisaTermo%";
     }
@@ -59,9 +70,9 @@ $stmt = $conn->prepare($sql);
 if ($stmt) {
     if ($favoritos == 1) {
         $stmt->bind_param($paramTypes, ...$bindParams);
-    } elseif (!empty($bindParams) and empty($pesquisaTermo)) {
+    } elseif (!empty ($bindParams) and empty ($pesquisaTermo)) {
         $stmt->bind_param($paramTypes, ...$bindParams);
-    } elseif (!empty($pesquisaTermo)) {
+    } elseif (!empty ($pesquisaTermo)) {
         $stmt->bind_param("s", $pesquisaTermoSeguro);
     }
 
