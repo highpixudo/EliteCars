@@ -213,7 +213,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                             if (xhr.status === 200) {
                                 var response = JSON.parse(xhr.responseText);
                                 if (response.success) {
-                                    document.getElementById('previewImage').src = '/elitecars/conta/uploads/' + response.username + '/' + response.filename;
+                                    document.getElementById('previewImage').src = 'uploads/' + response.username + '/' + response.filename;
                                 } else {
                                     console.error('Erro no envio do arquivo');
                                 }

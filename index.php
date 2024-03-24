@@ -57,7 +57,7 @@ $_SESSION['last_activity'] = time();
     <div class="container">
 
         <div class="text">
-            <p class="texto-main">Salve até <span class="highlight">15%</span> com o novo modelo Tesla S.
+            <p class="texto-main">Poupe até <span class="highlight">15%</span> com o novo modelo Tesla S.
                 Aproveite a próxima geração de veículos elétricos.</p>
 
             <div class="buttons">

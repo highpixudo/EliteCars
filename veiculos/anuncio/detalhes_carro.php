@@ -21,7 +21,7 @@ $banco = "elitecars";
 $conn = new mysqli($host, $usuario, $senha, $banco);
 
 if ($conn->connect_error) {
-    die("Erro na conexão com a base de dados: " . $conn->connect_error);
+    die ("Erro na conexão com a base de dados: " . $conn->connect_error);
 }
 
 $secretKey = bin2hex(random_bytes(32));
@@ -31,18 +31,18 @@ session_start();
 $sessionLifetime = 1800; // 30 minutos em segundos
 
 // ajustar o tempo de vida da sessão se a checkbox "lembrar-me" estiver marcada
-if (isset($_COOKIE['remember_me']) && !empty($_COOKIE['remember_me'])) {
+if (isset ($_COOKIE['remember_me']) && !empty ($_COOKIE['remember_me'])) {
     $sessionLifetime = 60 * 60 * 24 * 30; // 30 dias em segundos
 }
 
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionLifetime)) {
+if (isset ($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionLifetime)) {
     // a sessão expirou
     session_unset();
     session_destroy();
 }
 
 $_SESSION['last_activity'] = time();
-$current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
+$current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
 ?>
 
 <body>
@@ -50,10 +50,10 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
         <a href="/elitecars/" class="logo">ELITE</a>
         <div class="nav-buttons">
             <?php
-            if (isset($_SESSION["username"])) {
+            if (isset ($_SESSION["username"])) {
                 echo '<a href="/elitecars/" class="register" id="home">Início</a>';
                 echo '<a href="/elitecars/veiculos" class="register" id="cars">Veículos</a>';
-                echo '<a href="../mensagens" class="register" id="about">Mensagens</a>';
+                echo '<a href="/elitecars/mensagens" class="register" id="about">Mensagens</a>';
                 echo '<a href="/elitecars/conta" class="register" id="account">Conta</a>';
             } else {
                 echo '<a href="/elitecars/signup" class="register">Criar conta</a>';
@@ -64,7 +64,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
     </div>
 
     <?php
-    if (!isset($_SESSION["username"])) {
+    if (!isset ($_SESSION["username"])) {
         echo '<h1 style="text-align: center;">Não tem sessão iniciada, por favor <a href="/elitecars/login">inicie sessão</a></h1>';
         return;
     }
@@ -117,20 +117,6 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                         </div>
                     </div>
 
-                    <div class="buttons">
-                        <button>Test Drive</button>
-                        <button>Comprar Agora
-                            <span>
-                                <svg class="" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 18 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1" />
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-
                     <?php
                     $car_id = $_GET['id'];
 
@@ -142,6 +128,21 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
                     $row_check_favorite = $result_check_favorite->fetch_assoc();
                     $is_favorite = $row_check_favorite['favorito'] > 0;
                     ?>
+
+                    <div class="buttons">
+                        <button>Test Drive</button>
+                        <a href="/elitecars/checkout?id=<?php echo $car_id; ?>" class="button-link">Comprar Agora
+                            <span>
+                                <svg class="" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 18 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1" />
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+
 
                     <div class="favorito">
                         <a href="#" class="add-to-favorites" data-car-id="<?php echo $car_id; ?>">
@@ -222,7 +223,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
 
                 <ul class="comments-list">
                     <?php
-                    if (isset($_POST['submit_comment'])) {
+                    if (isset ($_POST['submit_comment'])) {
                         $commentText = mysqli_real_escape_string($conn, $_POST['comment']);
                         $anuncio_id = $_GET['id'];
 

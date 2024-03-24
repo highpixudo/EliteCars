@@ -77,6 +77,23 @@ body {
     font-size: large;
 }
 
+.buttons .button-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    font-family: Poppins;
+    font-size: large;
+    cursor: pointer;
+    background-color: #FF8743;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eee;
+}
+
 .detail .buttons svg {
     width: 15px;
 }

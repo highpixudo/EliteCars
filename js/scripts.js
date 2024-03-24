@@ -50,7 +50,7 @@ $(document).ready(function () {
       $('#create').text('Sign up');
       $('#login').text('Login');
     } else if (language === 'pt') {
-      $('.texto-main').html('Salve até <span class="highlight">15%</span> com o novo modelo Tesla S. Aproveite a próxima geração de veículos elétricos.</p>');
+      $('.texto-main').html('Poupe até <span class="highlight">15%</span> com o novo modelo Tesla S. Aproveite a próxima geração de veículos elétricos.</p>');
       $('.button_comprar').text('Comprar agora');
       $('.button_testdrive').text('Test drive');
       $('.product-title').text('Carros em destaque');

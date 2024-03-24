@@ -63,12 +63,7 @@ $current_section = isset($_GET['section']) ? $_GET['section'] : 'home';
         </div>
     </div>
 
-    <?php
-    if (!isset($_SESSION["username"])) {
-        echo '<h1 style="text-align: center;">Não tem sessão iniciada, por favor <a href="../login">inicie sessão</a></h1>';
-        return;
-    }
-    ?>
+
     <div class="veiculos">
         <div class="pesquisa">
             <input type="text" id="pesquisaTermo" name="pesquisaTermo" placeholder="O que procura?">
