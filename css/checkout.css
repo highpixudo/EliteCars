@@ -234,6 +234,7 @@ input[type="text"] {
   margin-right: 10px;
 }
 
+
 .btn {
   font-family: "Josefin Sans", sans-serif;
   border-radius: 8px;
@@ -433,4 +434,9 @@ input[type="text"] {
     font-family: Poppins;
     font-size: large;
     color: #eee;
+}
+
+.processing {
+  pointer-events: none;
+  opacity: 0.5;
 }

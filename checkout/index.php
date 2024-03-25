@@ -150,14 +150,14 @@ $current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
                                             <div class="title">Número do cartão
                                             </div>
                                             <input type="text" class="input txt text-validated"
-                                                placeholder="4542 9931 9292 2293" />
+                                                placeholder="4542 9931 9292 2293" name="card_number" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="field small">
                                             <div class="title">Data de validade
                                             </div>
-                                            <select class="input ddl">
+                                            <select class="input ddl" name="expiry_month">
                                                 <option selected>01</option>
                                                 <option>02</option>
                                                 <option>03</option>
@@ -171,7 +171,7 @@ $current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
                                                 <option>11</option>
                                                 <option>12</option>
                                             </select>
-                                            <select class="input ddl">
+                                            <select class="input ddl" name="expiry_year">
                                                 <option>01</option>
                                                 <option>02</option>
                                                 <option>03</option>
@@ -208,7 +208,7 @@ $current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
                                         <div class="field small">
                                             <div class="title">CVV
                                             </div>
-                                            <input type="text" class="input txt" />
+                                            <input type="text" class="input txt" name="cvv" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -242,10 +242,10 @@ $current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
             <div class="container">
                 <div class="actions">
 
-                    <a href="#" class="btn action__submit">Efetuar pagamento
+                    <a href="" class="btn action__submit">Efetuar pagamento
                         <i class="icon icon-arrow-right-circle"></i>
                     </a>
-                    <a href="#" class="backBtn">Voltar para o catálogo</a>
+                    <a href="/elitecars/veiculos" class="backBtn">Voltar para o catálogo</a>
 
                 </div>
         </section>
@@ -254,4 +254,91 @@ $current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
         <?php
     }
     ?>
+
+    <script>
+        $(document).ready(function () {
+            $('.action__submit').click(function (e) {
+                e.preventDefault();
+
+                var cardNumber = $('.txt.text-validated').val();
+                var cvv = $('.input[name="cvv"]').val();
+                var expiryMonth = $('.ddl[name="expiry_month"]').val();
+                var expiryYear = $('.ddl[name="expiry_year"]').val();
+
+                if (!isValidCardNumber(cardNumber)) {
+                    alert('Número de cartão inválido');
+                    return;
+                }
+
+                if (!isValidCVV(cvv)) {
+                    alert('CVV inválido');
+                    return;
+                }
+
+                if (!isValidExpiryDate(expiryMonth, expiryYear)) {
+                    alert('Data de validade inválida');
+                    return;
+                }
+
+                $(this).addClass('processing');
+
+                var formData = $('form').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'processar_pagamento.php',
+                    data: formData,
+                    success: function (response) {
+                        alert("Compra efetuada com sucesso.")
+                        window.location.href = '/elitecars/';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erro na requisição AJAX: ' + xhr.responseText);
+                        alert('Ocorreu um erro ao processar o pagamento. Por favor, tente novamente.');
+                        $('.action__submit').removeClass('processing');
+                    }
+                });
+            });
+        });
+
+        function isValidCVV(cvv) {
+            return /^\d{3,4}$/.test(cvv);
+        }
+
+        function isValidExpiryDate(expiryMonth, expiryYear) {
+            var currentDate = new Date();
+            var currentYear = currentDate.getFullYear() % 100;
+            var currentMonth = currentDate.getMonth() + 1;
+
+            var expiryMonthInt = parseInt(expiryMonth, 10);
+            var expiryYearInt = parseInt(expiryYear, 10);
+            return (expiryYearInt > currentYear || (expiryYearInt === currentYear && expiryMonthInt >= currentMonth));
+        }
+
+
+        function isValidCardNumber(cardNumber) {
+            cardNumber = cardNumber.replace(/\D/g, '');
+
+            if (cardNumber.length !== 16) {
+                return false;
+            }
+
+            // algoritmo de Luhn
+            var sum = 0;
+            for (var i = 0; i < 16; i++) {
+                var digit = parseInt(cardNumber[i]);
+                if (i % 2 === 0) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9;
+                    }
+                }
+                sum += digit;
+            }
+
+            return sum % 10 === 0;
+        }
+
+
+    </script>
+
 </body>
