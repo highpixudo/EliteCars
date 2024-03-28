@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/elitecars/css/nav_bar.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/elitecars/js/scripts.js"></script>
+    <script src="/elitecars/atualizar_online.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>EliteCars - Veículos</title>
 </head>
@@ -195,11 +196,45 @@ $current_section = isset ($_GET['section']) ? $_GET['section'] : 'home';
             </div>
             <div class="contact-vendor">
                 <div class="contact-image">
+                    <?php
+                    $sql_foto_user = "SELECT foto FROM utilizadores WHERE user = ?";
+                    $stmt_foto_user = $conn->prepare($sql_foto_user);
+                    $stmt_foto_user->bind_param("s", $row_detalhes["anunciante"]);
+                    $stmt_foto_user->execute();
+                    $stmt_foto_user->bind_result($foto_user);
+                    $stmt_foto_user->fetch();
+                    $stmt_foto_user->close();
+                    ?>
+
+                    <?php
+                    echo '<img src="/elitecars/conta/' . $foto_user . '"';
+                    ?>
+
                     <img src="https://cdn-icons-png.flaticon.com/512/2815/2815428.png" alt="Foto do Vendedor">
                 </div>
                 <div class="contact-info">
-                    <?php echo '<h2>@' . $row_detalhes["anunciante"] . '</h2> '; ?>
-                    <p>Ultima vez online dia 12 de Fevereiro de 2023</p>
+                    <?php
+                    echo '<h2>@' . $row_detalhes["anunciante"] . '</h2>';
+                    $anunciante = $row_detalhes["anunciante"];
+                    $sql_last_activity = "SELECT ultima_atividade FROM utilizadores WHERE user = ?";
+                    $stmt_last_activity = $conn->prepare($sql_last_activity);
+                    $stmt_last_activity->bind_param("s", $anunciante);
+                    $stmt_last_activity->execute();
+                    $stmt_last_activity->store_result();
+
+                    if ($stmt_last_activity->num_rows > 0) {
+                        $stmt_last_activity->bind_result($ultima_atividade);
+                        $stmt_last_activity->fetch();
+
+                        $ultima_atividade = new DateTime($ultima_atividade);
+                        $ultima_atividade_formatada = $ultima_atividade->format('d/m/Y');
+                        echo '<p>Última vez online em ' . $ultima_atividade_formatada . '</p>';
+                    } else {
+                        echo '<p>Informação de atividade não disponível</p>';
+                    }
+                    $stmt_last_activity->close();
+                    ?>
+
                 </div>
                 <div class="botao-contact">
                     <form action="/elitecars/mensagens?chat=<?php echo urlencode($row_detalhes["anunciante"]); ?>"

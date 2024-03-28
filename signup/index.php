@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/signup.css">
     <link rel="stylesheet" href="../css/nav_bar.css">
     <link rel="icon" href="assets/favicon.ico">
+    <script src="/elitecars/atualizar_online.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 </head>
 

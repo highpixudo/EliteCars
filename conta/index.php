@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/nav_bar.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="../js/scripts.js"></script>
+    <script src="/elitecars/atualizar_online.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>EliteCars - Conta</title>
 </head>

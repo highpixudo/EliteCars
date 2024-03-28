@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="assets/favicon.ico">
+    <script src="/elitecars/atualizar_online.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -182,9 +183,9 @@ $_SESSION['last_activity'] = time();
                 <a href="https://www.facebook.com" target="_blank"><i class='bx bxl-facebook-circle'></i></a>
                 <a href="https://twitter.com/EliteCars287124" target="_blank"><i class='bx bxl-twitter'></i></a>
 
-                <p>Email: suporte@elitecars.com</p>
+                <p>Email: elitecars.corp@gmail.com</p>
                 <p class="contacto">Contacto: +351 123 456 789</p>
-                <p class="copyright">Copyright &copy; 2023, EliteCars. Todos os direitos reservados.</p>
+                <p class="copyright">Copyright &copy; 2024, EliteCars. Todos os direitos reservados.</p>
                 <div id="language-selector">
                     <select id="language" onchange="changeLanguage(this.value)">
                         <option value="pt" data-flag="en">Português</option>
